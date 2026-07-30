@@ -3,7 +3,7 @@ import LottieAnimation from "@/components/ServicesAnimation";
 import { useSEO } from "@/hooks/useSEO";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Calendar, Clock } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Calendar, Clock, TrendingUp } from "lucide-react";
 import { AnimatePresence, motion, useInView } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -21,24 +21,20 @@ const ease = [0.16, 1, 0.3, 1];
 // ---- Marquee Ticker ----
 const MarqueeTicker = ({ items, speed = 26 }: { items: string[]; speed?: number }) => {
   const trackRef = useRef<HTMLDivElement>(null);
-  useEffect(() =>
-    {
+  useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
     const totalWidth = track.scrollWidth / 2;
     const tween = gsap.to(track, { x: `-${totalWidth}px`, duration: speed, ease: "none", repeat: -1 });
-    return () => {
-      tween.kill();
-    };
+    return () => { tween.kill(); };
   }, [speed]);
   const doubled = [...items, ...items];
   return (
-    <div className="overflow-hidden bg-gray-950 py-4 border-y border-gray-800">
+    <div className="overflow-hidden bg-gray-950 py-3.5 border-y border-gray-800">
       <div ref={trackRef} className="flex gap-10 whitespace-nowrap will-change-transform">
         {doubled.map((text, i) => (
-          <span key={i} className="flex items-center gap-10 text-[11px] font-semibold tracking-[0.22em] uppercase text-gray-500">
-            {text}
-            <span className="w-1.5 h-1.5 rounded-full bg-gray-700 inline-block" />
+          <span key={i} className="flex items-center gap-10 text-[10px] font-bold tracking-[0.28em] uppercase text-gray-500">
+            {text}<span className="w-1 h-1 rounded-full bg-gray-600 inline-block" />
           </span>
         ))}
       </div>
@@ -72,73 +68,6 @@ const ParallaxImage = ({
   );
 };
 
-// ---- Magnetic Link ----
-const MagneticLink = ({
-  to, children, className, onMouseEnter, onMouseLeave,
-}: {
-  to: string; children: React.ReactNode; className?: string;
-  onMouseEnter?: () => void; onMouseLeave?: () => void;
-}) => {
-  const btnRef = useRef<HTMLAnchorElement>(null);
-  useEffect(() => {
-    const btn = btnRef.current;
-    if (!btn) return;
-    const onMove = (e: MouseEvent) => {
-      const rect = btn.getBoundingClientRect();
-      const dx = (e.clientX - (rect.left + rect.width / 2)) * 0.35;
-      const dy = (e.clientY - (rect.top + rect.height / 2)) * 0.35;
-      gsap.to(btn, { x: dx, y: dy, duration: 0.4, ease: "power2.out" });
-    };
-    const onLeave = () => gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1,0.5)" });
-    btn.addEventListener("mousemove", onMove);
-    btn.addEventListener("mouseleave", onLeave);
-    return () => { btn.removeEventListener("mousemove", onMove); btn.removeEventListener("mouseleave", onLeave); };
-  }, []);
-  return (
-    <a
-      ref={btnRef as any}
-      href={to}
-      className={`will-change-transform ${className ?? ""}`}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      {children}
-    </a>
-  );
-};
-
-// ---- Newsletter subscribe input GSAP focus glow ----
-const NewsletterInput = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-
-  const handleFocus = () => {
-    gsap.to(glowRef.current, { opacity: 1, scale: 1.02, duration: 0.4, ease: "power2.out" });
-  };
-  const handleBlur = () => {
-    gsap.to(glowRef.current, { opacity: 0, scale: 1, duration: 0.35, ease: "power2.in" });
-  };
-
-  return (
-    <div className="relative">
-      <div
-        ref={glowRef}
-        className="absolute inset-0 rounded-full opacity-0 pointer-events-none"
-        style={{ boxShadow: "0 0 0 3px rgba(255,255,255,0.4)", willChange: "transform, opacity" }}
-      />
-      <input
-        ref={inputRef}
-        type="email"
-        placeholder="Enter your email"
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        className="w-full px-6 py-4 rounded-full bg-white text-gray-900 placeholder-gray-500 focus:outline-none"
-      />
-    </div>
-  );
-};
-
-
 // ========================================================
 // WHITE SCREEN TRANSITION — GSAP curtain
 // ========================================================
@@ -156,6 +85,92 @@ const WhiteScreenTransition = ({ onComplete }: { onComplete: () => void }) => {
   return <div ref={ref} className="fixed inset-0 bg-white z-[9999] will-change-transform" />;
 };
 
+
+// ========================================================
+// ✦ CATEGORY PILL
+// ========================================================
+const CategoryPill = ({ label, accent = false }: { label: string; accent?: boolean }) => (
+  <span className={`inline-block text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1 rounded-full ${accent ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600"}`}>
+    {label}
+  </span>
+);
+
+// ========================================================
+// ✦ HERO FEATURE CARD — large spotlight card
+// ========================================================
+const HeroCard = ({ post, inView }: { post: any; inView: boolean }) => (
+  <motion.div className="group relative flex flex-col h-full"
+    initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}>
+    <a href={`/blog/${post.id}`} className="block relative rounded-2xl overflow-hidden mb-5 h-72 sm:h-80 lg:h-[420px] flex-shrink-0">
+      <ParallaxImage src={post.image} alt={post.title} className="w-full h-full" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
+      <div className="absolute top-4 left-4"><CategoryPill label={post.category} accent /></div>
+      <div className="absolute bottom-5 left-5 right-5">
+        <div className="flex items-center gap-3 text-white/70 text-xs mb-2.5">
+          <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
+          <span>·</span>
+          <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
+        </div>
+        <h3 className="text-white text-2xl sm:text-3xl font-bold leading-snug line-clamp-3">{post.title}</h3>
+      </div>
+    </a>
+    <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-4 flex-1">{post.excerpt}</p>
+    <a href={`/blog/${post.id}`} className="inline-flex items-center gap-1.5 text-sm font-bold text-gray-900 hover:gap-3 transition-all duration-200 group-hover:underline underline-offset-4">
+      Read article <ArrowUpRight className="w-4 h-4" />
+    </a>
+  </motion.div>
+);
+
+// ========================================================
+// ✦ SIDE STACK CARD — compact right-column cards
+// ========================================================
+const StackCard = ({ post, index, inView }: { post: any; index: number; inView: boolean }) => (
+  <motion.div className="group flex gap-4 items-start pb-5 last:pb-0 border-b border-gray-100 last:border-b-0"
+    initial={{ opacity: 0, x: 20 }} animate={inView ? { opacity: 1, x: 0 } : {}}
+    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 + index * 0.08 }}>
+    <a href={`/blog/${post.id}`} className="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-gray-100">
+      <img src={post.image} alt={post.title} loading="lazy" decoding="async"
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+    </a>
+    <div className="flex-1 min-w-0">
+      <CategoryPill label={post.category} />
+      <a href={`/blog/${post.id}`}>
+        <h4 className="text-sm font-semibold text-gray-900 leading-snug mt-1.5 mb-1 line-clamp-2 group-hover:underline underline-offset-2">{post.title}</h4>
+      </a>
+      <span className="text-xs text-gray-400 flex items-center gap-1.5"><Clock className="w-3 h-3" />{post.readTime}</span>
+    </div>
+  </motion.div>
+);
+
+// ========================================================
+// ✦ GRID CARD — standard 3-column featured grid
+// ========================================================
+const GridCard = ({ post, index, inView }: { post: any; index: number; inView: boolean }) => (
+  <motion.div className="group flex flex-col"
+    initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+    transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.05 + index * 0.05 }}>
+    <a href={`/blog/${post.id}`} className="block relative rounded-xl overflow-hidden h-48 mb-4 flex-shrink-0">
+      <ParallaxImage src={post.image} alt={post.title} className="w-full h-full" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute top-3 left-3"><CategoryPill label={post.category} accent /></div>
+    </a>
+    <div className="flex-1 flex flex-col">
+      <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
+        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
+        <span>·</span>
+        <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
+      </div>
+      <a href={`/blog/${post.id}`}>
+        <h3 className="text-base font-bold text-gray-900 leading-snug mb-2 line-clamp-2 group-hover:underline underline-offset-2">{post.title}</h3>
+      </a>
+      <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-3 flex-1">{post.excerpt}</p>
+      <a href={`/blog/${post.id}`} className="inline-flex items-center gap-1 text-xs font-bold text-gray-900 uppercase tracking-wider hover:gap-2.5 transition-all duration-200 mt-auto">
+        Read more <ArrowRight className="w-3.5 h-3.5" />
+      </a>
+    </div>
+  </motion.div>
+);
 
 // ========================================================
 // ORBITAL RINGS
@@ -281,10 +296,10 @@ const CTASection = () => {
 
 
 // ========================================================
-// POST ROW — with GSAP parallax image + line-draw divider
+// POST ROW — editorial list style for "Latest insights"
 // ========================================================
 const PostRow = ({ post, index }: { post: any; index: number }) => {
-  const rowRef = useRef(null);
+  const rowRef  = useRef(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const rowInView = useInView(rowRef, { once: true, margin: "-60px" });
 
@@ -292,46 +307,36 @@ const PostRow = ({ post, index }: { post: any; index: number }) => {
     if (!rowInView || !lineRef.current) return;
     gsap.fromTo(lineRef.current,
       { scaleX: 0, transformOrigin: "left center" },
-      { scaleX: 1, duration: 1, ease: "power3.out", delay: 0.3 }
+      { scaleX: 1, duration: 0.9, ease: "power3.out", delay: 0.2 }
     );
   }, [rowInView]);
 
   return (
-    <div ref={rowRef} className="relative pb-16 last:pb-0">
-      <motion.div
-        className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start"
-        initial={{ opacity: 0, y: 50 }}
-        animate={rowInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
-      >
-        <div className="relative rounded-2xl overflow-hidden h-80">
-          <ParallaxImage src={post.image} alt={post.title} className="w-full h-full" />
-          <div className="absolute inset-0 pointer-events-none" />
-          <div className="absolute top-6 left-6 z-10">
-            <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-full backdrop-blur-sm">
-              <span className="text-xs font-medium uppercase tracking-wider">{post.category}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          <div className="flex items-center gap-6 text-sm text-gray-600">
-            <div className="flex items-center gap-2"><Calendar className="w-4 h-4" /><span>{post.date}</span></div>
-            <div className="flex items-center gap-2"><Clock className="w-4 h-4" /><span>{post.readTime}</span></div>
-          </div>
-          <h3 className="text-2xl lg:text-3xl font-semibold text-gray-900 leading-tight">{post.title}</h3>
-          <p className="text-lg text-gray-800 leading-relaxed">{post.excerpt}</p>
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="inline-block">
-            <a href={`/blog/${post.id}`} className="inline-flex items-center px-8 py-3 border-2 border-gray-900 rounded-full text-gray-900 font-medium hover:bg-gray-900 hover:text-white transition-colors duration-300">
-              Read more
-            </a>
-          </motion.div>
-        </div>
-      </motion.div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-300 overflow-hidden last-of-type:hidden">
-        <div ref={lineRef} className="h-full bg-gradient-to-r from-transparent via-gray-500 to-transparent" style={{ transform: "scaleX(0)" }} />
+    <div ref={rowRef} className="relative">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gray-100 overflow-hidden">
+        <div ref={lineRef} className="h-full bg-gradient-to-r from-transparent via-gray-400 to-transparent" style={{ transform: "scaleX(0)" }} />
       </div>
+      <motion.a
+        href={`/blog/${post.id}`}
+        className="group grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-4 sm:gap-8 items-start py-7 sm:py-8"
+        initial={{ opacity: 0, y: 24 }}
+        animate={rowInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.04 }}
+      >
+        <div className="space-y-2 flex-1 min-w-0">
+          <div className="flex items-center gap-3 flex-wrap">
+            <CategoryPill label={post.category} />
+            <span className="flex items-center gap-1 text-xs text-gray-400"><Calendar className="w-3 h-3" />{post.date}</span>
+            <span className="flex items-center gap-1 text-xs text-gray-400"><Clock className="w-3 h-3" />{post.readTime}</span>
+          </div>
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 leading-snug group-hover:underline underline-offset-2 line-clamp-2">{post.title}</h3>
+          <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 hidden sm:block">{post.excerpt}</p>
+        </div>
+        <div className="flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-gray-100">
+          <img src={post.image} alt={post.title} loading="lazy" decoding="async"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        </div>
+      </motion.a>
     </div>
   );
 };
@@ -368,6 +373,7 @@ const Index = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const blogPosts = [
+    { id: "the-hidden-technology-behind-indias-gcc-boom-why-it-infrastructure-matters", title: "The Hidden Technology Behind India's GCC Boom: Why IT Infrastructure Is Becoming the Biggest Investment", excerpt: "India's GCC landscape is evolving beyond talent. Discover why IT infrastructure, hybrid cloud, cybersecurity, and AI readiness are becoming the defining investments for Global Capability Centers.", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80", date: "July 20, 2026", readTime: "10 min read", category: "Enterprise IT" },
     { id: "why-remote-engineering-teams-are-transforming-manufacturing-and-product-design", title: "Why Remote Engineering Teams Are Transforming Manufacturing and Product Design", excerpt: "Discover how remote engineering teams are transforming manufacturing and product design with secure remote workstations, GPU-powered collaboration, and enterprise IT infrastructure.", image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1600&q=80", date: "July 18, 2026", readTime: "9 min read", category: "Engineering" },
     { id: "how-ai-powered-document-collaboration-is-transforming-modern-business-workflows", title: "How AI-Powered Document Collaboration Is Transforming Modern Business Workflows", excerpt: "Discover how Adobe Document Cloud, Adobe Acrobat, and Adobe Acrobat Studio help enterprises build smarter, AI-powered document workflows that improve collaboration and productivity.", image: "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1600&q=80", date: "July 15, 2026", readTime: "9 min read", category: "Document AI" },
     { id: "why-ai-is-reshaping-enterprise-server-and-storage-infrastructure", title: "Why AI Is Reshaping Enterprise Server and Storage Infrastructure", excerpt: "Discover why traditional infrastructure falls short and how GPU compute, high-performance NVMe storage, and hybrid cloud strategies are reshaping modern enterprise data centers.", image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80", date: "July 15, 2026", readTime: "8 min read", category: "Infrastructure" },
@@ -392,21 +398,22 @@ const Index = () => {
   ];
 
   const featuredPost = blogPosts[0];
-  const postN = blogPosts.find(p => p.id === "why-remote-engineering-teams-are-transforming-manufacturing-and-product-design") || blogPosts[0];
-  const postM = blogPosts.find(p => p.id === "how-ai-powered-document-collaboration-is-transforming-modern-business-workflows") || blogPosts[1];
-  const postL = blogPosts[2];
-  const postK = blogPosts[3];
-  const postJ = blogPosts.find(p => p.id === "how-microsoft-intune-is-helping-enterprises-secure-hybrid-work-and-simplify-endpoint-management") || blogPosts[4];
-  const postI = blogPosts.find(p => p.id === "how-real-time-3d-and-xr-are-transforming-automotive-product-development") || blogPosts[5];
-  const postG = blogPosts.find(p => p.id === "how-enterprises-are-using-azure-openai-to-drive-productivity-and-innovation-in-2026") || blogPosts[6];
-  const postH = blogPosts.find(p => p.id === "why-businesses-are-choosing-dell-dual-monitor-setups-for-higher-productivity") || blogPosts[8];
-  const postF = blogPosts.find(p => p.id === "microsoft-threat-protection-strengthening-enterprise-security") || blogPosts[7];
-  const postA = blogPosts.find(p => p.id === "bloga") || blogPosts[13];
-  const postB = blogPosts.find(p => p.id === "blogb") || blogPosts[12];
-  const postC = blogPosts.find(p => p.id === "interactive-3d-business-unity-studio") || blogPosts[11];
-  const postD = blogPosts.find(p => p.id === "blogd") || blogPosts[10];
-  const postE = blogPosts.find(p => p.id === "bim-digital-twins-aec-redefined") || blogPosts[9];
-  const regularPosts = blogPosts.slice(13);
+  const postO = blogPosts.find(p => p.id === "the-hidden-technology-behind-indias-gcc-boom-why-it-infrastructure-matters") || blogPosts[0];
+  const postN = blogPosts.find(p => p.id === "why-remote-engineering-teams-are-transforming-manufacturing-and-product-design") || blogPosts[1];
+  const postM = blogPosts.find(p => p.id === "how-ai-powered-document-collaboration-is-transforming-modern-business-workflows") || blogPosts[2];
+  const postL = blogPosts[3];
+  const postK = blogPosts[4];
+  const postJ = blogPosts.find(p => p.id === "how-microsoft-intune-is-helping-enterprises-secure-hybrid-work-and-simplify-endpoint-management") || blogPosts[5];
+  const postI = blogPosts.find(p => p.id === "how-real-time-3d-and-xr-are-transforming-automotive-product-development") || blogPosts[6];
+  const postG = blogPosts.find(p => p.id === "how-enterprises-are-using-azure-openai-to-drive-productivity-and-innovation-in-2026") || blogPosts[7];
+  const postH = blogPosts.find(p => p.id === "why-businesses-are-choosing-dell-dual-monitor-setups-for-higher-productivity") || blogPosts[9];
+  const postF = blogPosts.find(p => p.id === "microsoft-threat-protection-strengthening-enterprise-security") || blogPosts[8];
+  const postA = blogPosts.find(p => p.id === "bloga") || blogPosts[14];
+  const postB = blogPosts.find(p => p.id === "blogb") || blogPosts[13];
+  const postC = blogPosts.find(p => p.id === "interactive-3d-business-unity-studio") || blogPosts[12];
+  const postD = blogPosts.find(p => p.id === "blogd") || blogPosts[11];
+  const postE = blogPosts.find(p => p.id === "bim-digital-twins-aec-redefined") || blogPosts[10];
+  const regularPosts = blogPosts.slice(14);
 
   const heroRef       = useRef(null);
   const featuredRef   = useRef(null);
@@ -448,106 +455,103 @@ const Index = () => {
       {showWhiteScreen && <WhiteScreenTransition onComplete={() => setShowWhiteScreen(false)} />}
 
       {/* ==================== HERO ==================== */}
-      <section className="relative bg-white pt-28 pb-20 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-white opacity-60" />
-        <div className="relative z-10 max-w-7xl mx-auto">
+      <section className="relative bg-white pt-28 sm:pt-32 pb-16 px-6 overflow-hidden border-b border-gray-100">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-10" ref={heroRef}>
 
-          {/* ── Hero: heading (left) + LottieAnimation (right) ── */}
-          <div
-            className="flex flex-col lg:flex-row items-center justify-between gap-12 mb-16"
-            ref={heroRef}
-          >
-            {/* Left — heading + description */}
+            {/* Left */}
             <div className="flex-1 text-center lg:text-left">
-              <h1
-                ref={heroHeadingRef}
-                className="text-6xl md:text-7xl font-semibold text-gray-900 mb-6 leading-tight font-sans"
-                aria-label="Blog"
-              >
+              {/* eyebrow */}
+              <motion.div className="inline-flex items-center gap-2 bg-gray-100 rounded-full px-4 py-1.5 mb-6"
+                initial={{ opacity: 0, y: 12 }} animate={heroInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 1.0 }}>
+                <TrendingUp className="w-3.5 h-3.5 text-gray-500" />
+                <span className="text-xs font-bold uppercase tracking-widest text-gray-500">Insights & Analysis</span>
+              </motion.div>
+
+              <h1 ref={heroHeadingRef}
+                className="text-5xl sm:text-6xl md:text-7xl font-bold text-gray-900 mb-5 leading-[1.05] tracking-tight"
+                aria-label="Blog">
                 {["Blog"].map((word, i) => (
-                  <span key={i} className="blog-word inline-block opacity-0">
-                    {word}
-                  </span>
+                  <span key={i} className="blog-word inline-block opacity-0">{word}</span>
                 ))}
               </h1>
 
-              <motion.p
-                className="text-xl text-gray-700 max-w-xl leading-relaxed"
-                initial={{ opacity: 0, y: 30 }}
-                animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 1.55 }}
-              >
-                Discover the latest insights, news, and updates from Sniper Systems and Solutions.
-                Stay informed about technology trends, best practices, and industry developments
-                that matter to your business.
+              <motion.p className="text-lg text-gray-500 max-w-md leading-relaxed mb-8"
+                initial={{ opacity: 0, y: 24 }} animate={heroInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 1.55 }}>
+                Expert perspectives on enterprise IT, cloud infrastructure, cybersecurity, and the technologies shaping modern business.
               </motion.p>
+
+              <motion.div className="flex flex-wrap gap-2 justify-center lg:justify-start"
+                initial={{ opacity: 0 }} animate={heroInView ? { opacity: 1 } : {}}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 1.7 }}>
+                {["Infrastructure", "Cybersecurity", "Cloud AI", "Engineering", "Enterprise IT"].map(tag => (
+                  <span key={tag} className="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200 hover:border-gray-400 hover:text-gray-700 transition-colors cursor-default">{tag}</span>
+                ))}
+              </motion.div>
             </div>
 
-            {/* Right — Lottie Animation */}
-            <motion.div
-              className="flex-1 flex items-center justify-center w-full max-w-md lg:max-w-lg xl:max-w-xl"
-              initial={{ opacity: 0, x: 40 }}
-              animate={heroInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.3 }}
-            >
+            {/* Right — Lottie */}
+            <motion.div className="flex-1 flex items-center justify-center w-full max-w-sm lg:max-w-md"
+              initial={{ opacity: 0, x: 30 }} animate={heroInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.3 }}>
               <LottieAnimation />
             </motion.div>
           </div>
-
         </div>
       </section>
 
-      {/* ✦ GSAP Marquee — after hero */}
       <MarqueeTicker items={marqueeTopItems} speed={24} />
 
-      {/* ==================== FEATURED POSTS ==================== */}
-      <section className="bg-white py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-12" ref={featuredRef}>
-            <motion.h2
-              className="text-6xl md:text-7xl font-semibold text-gray-900 mb-6 leading-tight"
-              initial={{ opacity: 0, y: 50 }}
-              animate={featuredInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              Featured articles
-            </motion.h2>
+      {/* ==================== SPOTLIGHT + STACK ==================== */}
+      <section className="bg-white py-16 sm:py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-10" ref={featuredRef}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={featuredInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-1">Latest Stories</p>
+              <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">Featured articles</h2>
+            </motion.div>
+            <motion.a href="#all-posts"
+              className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-gray-500 hover:text-gray-900 transition-colors"
+              initial={{ opacity: 0 }} animate={featuredInView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}>
+              View all <ArrowRight className="w-4 h-4" />
+            </motion.a>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-20 border-b border-gray-300">
-            {[postN, postM, postL, postK, postJ, postI, postG, postH, postF, postE, postD, postC, postB].map((post, index) => (
-              <motion.div
-                key={post.id}
-                className="flex flex-col"
-                initial={{ opacity: 0, y: 40 }}
-                animate={featuredInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 + index * 0.1 }}
-              >
-                <div className="relative rounded-2xl overflow-hidden h-64 mb-6">
-                  <ParallaxImage src={post.image} alt={post.title} className="w-full h-full" />
-                  <div className="absolute top-4 left-4 z-10">
-                    <div className="bg-black bg-opacity-70 text-white px-3 py-1.5 rounded-full backdrop-blur-sm">
-                      <span className="text-xs font-medium uppercase tracking-wider">{post.category}</span>
-                    </div>
-                  </div>
-                </div>
+          {/* Row 1: Hero card (left) + 3 stack cards (right) */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 mb-12 pb-12 border-b border-gray-100">
+            <HeroCard post={postO} inView={featuredInView} />
+            <div className="flex flex-col justify-between gap-0">
+              {[postN, postM, postL].map((post, i) => (
+                <StackCard key={post.id} post={post} index={i} inView={featuredInView} />
+              ))}
+            </div>
+          </div>
 
-                <div className="space-y-4 flex-1 flex flex-col">
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
-                    <div className="flex items-center gap-2"><Calendar className="w-4 h-4" /><span>{post.date}</span></div>
-                    <div className="flex items-center gap-2"><Clock className="w-4 h-4" /><span>{post.readTime}</span></div>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-semibold text-gray-900 leading-tight">{post.title}</h3>
-                  <p className="text-base text-gray-800 leading-relaxed line-clamp-2">{post.excerpt}</p>
-                  <div className="mt-auto pt-4">
-                    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="inline-block">
-                      <a href={`/blog/${post.id}`} className="inline-flex items-center px-6 py-2.5 border-2 border-gray-900 rounded-full text-gray-900 font-medium hover:bg-gray-900 hover:text-white transition-colors duration-300">
-                        Read article
-                      </a>
-                    </motion.div>
-                  </div>
-                </div>
-              </motion.div>
+          {/* Row 2: 3-col grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 pb-12 border-b border-gray-100">
+            {[postK, postJ, postI].map((post, i) => (
+              <GridCard key={post.id} post={post} index={i} inView={featuredInView} />
+            ))}
+          </div>
+
+          {/* Row 3: Hero card (right) + 3 stack cards (left) */}
+          <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 mb-12 pb-12 border-b border-gray-100">
+            <div className="flex flex-col justify-between gap-0">
+              {[postG, postH, postF].map((post, i) => (
+                <StackCard key={post.id} post={post} index={i} inView={featuredInView} />
+              ))}
+            </div>
+            <HeroCard post={postE} inView={featuredInView} />
+          </div>
+
+          {/* Row 4: 3-col grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[postD, postC, postB].map((post, i) => (
+              <GridCard key={post.id} post={post} index={i} inView={featuredInView} />
             ))}
           </div>
         </div>
