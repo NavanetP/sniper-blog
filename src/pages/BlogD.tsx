@@ -407,7 +407,9 @@ const BlogD = () => {
 
   // GSAP hero word-stagger
   const heroHeadingRef = useRef<HTMLHeadingElement>(null);
-  useEffect(() => {
+
+  useEffect(() =>
+    {
     const el = heroHeadingRef.current;
     if (!el) return;
     const words = el.querySelectorAll(".hero-word");

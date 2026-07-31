@@ -3,22 +3,58 @@ import LottieAnimation from "@/components/ServicesAnimation";
 import { useSEO } from "@/hooks/useSEO";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, ArrowUpRight, Calendar, Clock, TrendingUp } from "lucide-react";
+import { ArrowRight, BookmarkPlus, Calendar, Clock, TrendingUp, User } from "lucide-react";
 import { AnimatePresence, motion, useInView } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import React from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// -------------------- Easing presets --------------------
-const ease = [0.16, 1, 0.3, 1];
+const ease = [0.16, 1, 0.3, 1] as const;
 
-// ========================================================
-// GSAP UTILITIES
-// ========================================================
+const TEAM_MEMBERS = [
+  { name: "Jahara Bee", avatar: "from-rose-500 to-pink-600" },
+  { name: "Praveena", avatar: "from-violet-500 to-indigo-600" },
+  { name: "Quency Wilfrada", avatar: "from-amber-500 to-orange-600" },
+  { name: "Wishways", avatar: "from-sky-500 to-blue-600" },
+];
 
-// ---- Marquee Ticker ----
+const getWeightedRandomAuthor = () => {
+  const weights = [40, 22, 19, 19];
+  const total = weights.reduce((a, b) => a + b, 0);
+  let rand = Math.random() * total;
+  for (let i = 0; i < TEAM_MEMBERS.length; i++) {
+    rand -= weights[i];
+    if (rand <= 0) return TEAM_MEMBERS[i];
+  }
+  return TEAM_MEMBERS[0];
+};
+
+const assignAuthorsToPosts = (posts: any[]) => {
+  const totalPosts = posts.length;
+  const jaharaTarget = Math.ceil(totalPosts * 0.4);
+  const othersTarget = Math.floor((totalPosts - jaharaTarget) / 3);
+
+  const authorCounts: Record<string, number> = {};
+  TEAM_MEMBERS.forEach(m => authorCounts[m.name] = 0);
+
+  return posts.map(post => {
+    let author = getWeightedRandomAuthor();
+
+    if (authorCounts[author.name] >= (author.name === "Jahara Bee" ? jaharaTarget : othersTarget)) {
+      const remaining = TEAM_MEMBERS.filter(
+        m => authorCounts[m.name] < (m.name === "Jahara Bee" ? jaharaTarget : othersTarget)
+      );
+      if (remaining.length > 0) {
+        author = remaining[Math.floor(Math.random() * remaining.length)];
+      }
+    }
+
+    authorCounts[author.name]++;
+    return { ...post, author: author.name, avatar: author.avatar };
+  });
+};
+
 const MarqueeTicker = ({ items, speed = 26 }: { items: string[]; speed?: number }) => {
   const trackRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -30,11 +66,11 @@ const MarqueeTicker = ({ items, speed = 26 }: { items: string[]; speed?: number 
   }, [speed]);
   const doubled = [...items, ...items];
   return (
-    <div className="overflow-hidden bg-gray-950 py-3.5 border-y border-gray-800">
+    <div className="overflow-hidden bg-[#fafafa] py-3 border-y border-gray-200">
       <div ref={trackRef} className="flex gap-10 whitespace-nowrap will-change-transform">
         {doubled.map((text, i) => (
-          <span key={i} className="flex items-center gap-10 text-[10px] font-bold tracking-[0.28em] uppercase text-gray-500">
-            {text}<span className="w-1 h-1 rounded-full bg-gray-600 inline-block" />
+          <span key={i} className="flex items-center gap-10 text-[10px] font-semibold tracking-[0.22em] uppercase text-gray-400">
+            {text}<span className="w-1 h-1 rounded-full bg-gray-300 inline-block" />
           </span>
         ))}
       </div>
@@ -42,7 +78,6 @@ const MarqueeTicker = ({ items, speed = 26 }: { items: string[]; speed?: number 
   );
 };
 
-// ---- Parallax Image ----
 const ParallaxImage = ({
   src, alt, className, children,
 }: {
@@ -54,23 +89,20 @@ const ParallaxImage = ({
     const wrap = wrapRef.current;
     const img = imgRef.current;
     if (!wrap || !img) return;
-    const tween = gsap.fromTo(img, { yPercent: -7 }, {
-      yPercent: 7, ease: "none",
+    const tween = gsap.fromTo(img, { yPercent: -5 }, {
+      yPercent: 5, ease: "none",
       scrollTrigger: { trigger: wrap, start: "top bottom", end: "bottom top", scrub: true },
     });
     return () => { tween.scrollTrigger?.kill(); tween.kill(); };
   }, []);
   return (
     <div ref={wrapRef} className={`overflow-hidden ${className ?? ""}`}>
-      <img ref={imgRef} src={src} alt={alt} className="w-full h-full object-cover scale-110 will-change-transform" />
+      <img ref={imgRef} src={src} alt={alt} loading="lazy" decoding="async" className="w-full h-full object-cover scale-105 will-change-transform" />
       {children}
     </div>
   );
 };
 
-// ========================================================
-// WHITE SCREEN TRANSITION — GSAP curtain
-// ========================================================
 const WhiteScreenTransition = ({ onComplete }: { onComplete: () => void }) => {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -85,96 +117,120 @@ const WhiteScreenTransition = ({ onComplete }: { onComplete: () => void }) => {
   return <div ref={ref} className="fixed inset-0 bg-white z-[9999] will-change-transform" />;
 };
 
-
-// ========================================================
-// ✦ CATEGORY PILL
-// ========================================================
-const CategoryPill = ({ label, accent = false }: { label: string; accent?: boolean }) => (
-  <span className={`inline-block text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1 rounded-full ${accent ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600"}`}>
+const MediumTag = ({ label, accent = false }: { label: string; accent?: boolean }) => (
+  <span className={`inline-block text-xs tracking-wide ${accent ? "text-[#1a8917] font-semibold" : "text-gray-500 font-medium"}`}>
     {label}
   </span>
 );
 
-// ========================================================
-// ✦ HERO FEATURE CARD — large spotlight card
-// ========================================================
+const AuthorBadge = ({ author, avatar, showName = true, size = "md" }: { author?: string; avatar?: string; showName?: boolean; size?: "sm" | "md" }) => {
+  const sizeClasses = size === "sm" ? "w-5 h-5" : "w-8 h-8";
+  const iconClasses = size === "sm" ? "w-2.5 h-2.5" : "w-4 h-4";
+  const defaultAvatar = avatar ?? "from-[#1a8917] to-[#15803d]";
+  return (
+    <div className="flex items-center gap-2.5">
+      <div className={`${sizeClasses} rounded-full bg-gradient-to-br ${defaultAvatar} flex items-center justify-center flex-shrink-0`}>
+        <User className={`${iconClasses} text-white`} />
+      </div>
+      {showName && <span className="text-sm text-gray-700 font-medium">{author ?? "Sniper Systems"}</span>}
+    </div>
+  );
+};
+
 const HeroCard = ({ post, inView }: { post: any; inView: boolean }) => (
   <motion.div className="group relative flex flex-col h-full"
     initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}>
-    <a href={`/blog/${post.id}`} className="block relative rounded-2xl overflow-hidden mb-5 h-72 sm:h-80 lg:h-[420px] flex-shrink-0">
+    transition={{ duration: 0.8, ease, delay: 0.1 }}>
+    <a href={`/blog/${post.id}`} className="block relative rounded-lg overflow-hidden mb-6 h-64 sm:h-72 lg:h-[380px] flex-shrink-0">
       <ParallaxImage src={post.image} alt={post.title} className="w-full h-full" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-      <div className="absolute top-4 left-4"><CategoryPill label={post.category} accent /></div>
-      <div className="absolute bottom-5 left-5 right-5">
-        <div className="flex items-center gap-3 text-white/70 text-xs mb-2.5">
-          <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
-          <span>·</span>
-          <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
-        </div>
-        <h3 className="text-white text-2xl sm:text-3xl font-bold leading-snug line-clamp-3">{post.title}</h3>
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+      <div className="absolute top-5 left-5"><MediumTag label={post.category} accent /></div>
     </a>
-    <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-4 flex-1">{post.excerpt}</p>
-    <a href={`/blog/${post.id}`} className="inline-flex items-center gap-1.5 text-sm font-bold text-gray-900 hover:gap-3 transition-all duration-200 group-hover:underline underline-offset-4">
-      Read article <ArrowUpRight className="w-4 h-4" />
-    </a>
-  </motion.div>
-);
-
-// ========================================================
-// ✦ SIDE STACK CARD — compact right-column cards
-// ========================================================
-const StackCard = ({ post, index, inView }: { post: any; index: number; inView: boolean }) => (
-  <motion.div className="group flex gap-4 items-start pb-5 last:pb-0 border-b border-gray-100 last:border-b-0"
-    initial={{ opacity: 0, x: 20 }} animate={inView ? { opacity: 1, x: 0 } : {}}
-    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 + index * 0.08 }}>
-    <a href={`/blog/${post.id}`} className="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-gray-100">
-      <img src={post.image} alt={post.title} loading="lazy" decoding="async"
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-    </a>
-    <div className="flex-1 min-w-0">
-      <CategoryPill label={post.category} />
-      <a href={`/blog/${post.id}`}>
-        <h4 className="text-sm font-semibold text-gray-900 leading-snug mt-1.5 mb-1 line-clamp-2 group-hover:underline underline-offset-2">{post.title}</h4>
-      </a>
-      <span className="text-xs text-gray-400 flex items-center gap-1.5"><Clock className="w-3 h-3" />{post.readTime}</span>
-    </div>
-  </motion.div>
-);
-
-// ========================================================
-// ✦ GRID CARD — standard 3-column featured grid
-// ========================================================
-const GridCard = ({ post, index, inView }: { post: any; index: number; inView: boolean }) => (
-  <motion.div className="group flex flex-col"
-    initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.05 + index * 0.05 }}>
-    <a href={`/blog/${post.id}`} className="block relative rounded-xl overflow-hidden h-48 mb-4 flex-shrink-0">
-      <ParallaxImage src={post.image} alt={post.title} className="w-full h-full" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <div className="absolute top-3 left-3"><CategoryPill label={post.category} accent /></div>
-    </a>
-    <div className="flex-1 flex flex-col">
-      <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
+    <div className="flex items-start gap-3 mb-4">
+      <AuthorBadge author={post.author} avatar={post.avatar} />
+      <div className="flex items-center gap-2 text-xs text-gray-400 ml-auto flex-shrink-0 pt-1">
         <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
         <span>·</span>
         <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
       </div>
-      <a href={`/blog/${post.id}`}>
-        <h3 className="text-base font-bold text-gray-900 leading-snug mb-2 line-clamp-2 group-hover:underline underline-offset-2">{post.title}</h3>
+    </div>
+    <a href={`/blog/${post.id}`}>
+      <h3 className="text-gray-900 text-2xl sm:text-3xl font-bold leading-tight mb-3 group-hover:text-[#1a8917] transition-colors duration-200" style={{ fontFamily: "'Georgia', 'Cambria', 'Times New Roman', serif" }}>
+        {post.title}
+      </h3>
+    </a>
+    <p className="text-gray-600 text-base leading-relaxed line-clamp-2 mb-4 flex-1" style={{ fontFamily: "'Georgia', 'Cambria', 'Times New Roman', serif" }}>
+      {post.excerpt}
+    </p>
+    <div className="flex items-center justify-between">
+      <a href={`/blog/${post.id}`} className="inline-flex items-center gap-1.5 text-sm font-medium text-[#1a8917] hover:gap-3 transition-all duration-200">
+        Read more <ArrowRight className="w-4 h-4" />
       </a>
-      <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-3 flex-1">{post.excerpt}</p>
-      <a href={`/blog/${post.id}`} className="inline-flex items-center gap-1 text-xs font-bold text-gray-900 uppercase tracking-wider hover:gap-2.5 transition-all duration-200 mt-auto">
-        Read more <ArrowRight className="w-3.5 h-3.5" />
-      </a>
+      <button className="p-2 text-gray-400 hover:text-[#1a8917] transition-colors rounded-full hover:bg-gray-100" aria-label="Save article">
+        <BookmarkPlus className="w-5 h-5" />
+      </button>
     </div>
   </motion.div>
 );
 
-// ========================================================
-// ORBITAL RINGS
-// ========================================================
+const StackCard = ({ post, index, inView }: { post: any; index: number; inView: boolean }) => (
+  <motion.div className="group flex gap-4 items-start pb-6 last:pb-0 border-b border-gray-100 last:border-b-0"
+    initial={{ opacity: 0, x: 20 }} animate={inView ? { opacity: 1, x: 0 } : {}}
+    transition={{ duration: 0.6, ease, delay: 0.15 + index * 0.08 }}>
+    <div className="flex-1 min-w-0">
+      <div className="mb-2"><MediumTag label={post.category} /></div>
+      <a href={`/blog/${post.id}`}>
+        <h4 className="text-base font-semibold text-gray-900 leading-snug mb-2 line-clamp-2 group-hover:text-[#1a8917] transition-colors" style={{ fontFamily: "'Georgia', 'Cambria', 'Times New Roman', serif" }}>
+          {post.title}
+        </h4>
+      </a>
+      <div className="flex items-center gap-2 mt-3">
+        <div className={`w-5 h-5 rounded-full bg-gradient-to-br ${post.avatar ?? "from-[#1a8917] to-[#15803d]"} flex items-center justify-center flex-shrink-0`}>
+          <User className="w-2.5 h-2.5 text-white" />
+        </div>
+        <span className="text-xs text-gray-500">{post.author ?? "Sniper Systems"}</span>
+        <span className="text-gray-300">·</span>
+        <span className="text-xs text-gray-400 flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
+      </div>
+    </div>
+    <a href={`/blog/${post.id}`} className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-gray-100">
+      <img src={post.image} alt={post.title} loading="lazy" decoding="async"
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+    </a>
+  </motion.div>
+);
+
+const GridCard = ({ post, index, inView }: { post: any; index: number; inView: boolean }) => (
+  <motion.div className="group flex flex-col pb-8 border-b border-gray-100 last:border-b-0 sm:last:border-b-0 sm:pb-0"
+    initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+    transition={{ duration: 0.65, ease, delay: 0.05 + index * 0.05 }}>
+    <a href={`/blog/${post.id}`} className="block relative rounded-lg overflow-hidden h-48 mb-5 flex-shrink-0">
+      <ParallaxImage src={post.image} alt={post.title} className="w-full h-full" />
+      <div className="absolute top-4 left-4"><MediumTag label={post.category} accent /></div>
+    </a>
+    <div className="flex items-center gap-3 mb-3">
+      <AuthorBadge showName={false} author={post.author} avatar={post.avatar} />
+      <div className="flex items-center gap-2 text-xs text-gray-400">
+        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
+      </div>
+    </div>
+    <a href={`/blog/${post.id}`}>
+      <h3 className="text-lg font-bold text-gray-900 leading-snug mb-2.5 line-clamp-2 group-hover:text-[#1a8917] transition-colors" style={{ fontFamily: "'Georgia', 'Cambria', 'Times New Roman', serif" }}>
+        {post.title}
+      </h3>
+    </a>
+    <p className="text-sm text-gray-600 leading-relaxed line-clamp-2 mb-4 flex-1" style={{ fontFamily: "'Georgia', 'Cambria', 'Times New Roman', serif" }}>
+      {post.excerpt}
+    </p>
+    <div className="flex items-center justify-between mt-auto">
+      <span className="text-xs text-gray-400 flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
+      <button className="p-1.5 text-gray-400 hover:text-[#1a8917] transition-colors rounded-full hover:bg-gray-100" aria-label="Save article">
+        <BookmarkPlus className="w-4 h-4" />
+      </button>
+    </div>
+  </motion.div>
+);
+
 const OrbitalRings = () => (
   <div className="absolute inset-0 bg-black overflow-hidden">
     <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
@@ -196,9 +252,6 @@ const OrbitalRings = () => (
 );
 
 
-// ========================================================
-// CTA SECTION
-// ========================================================
 const CTASection = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [displayPosition, setDisplayPosition] = useState({ x: 0, y: 0 });
@@ -206,7 +259,7 @@ const CTASection = () => {
   const [isHoveringButton, setIsHoveringButton] = useState(false);
   const sectionRef = useRef(null);
   const ctaBtnRef = useRef<HTMLAnchorElement>(null);
-  const animationFrameRef = useRef(null);
+  const animationFrameRef = useRef<number | null>(null);
   const velocity = useRef({ x: 0, y: 0 });
 
   const lerp = (s: number, e: number, f: number) => s + (e - s) * f;
@@ -269,14 +322,14 @@ const CTASection = () => {
         className="relative bg-black text-white py-20 px-6 rounded-[4rem] mx-6 my-12 cursor-none overflow-hidden"
         initial={{ opacity: 0, y: 60 }}
         animate={ctaInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.9, ease }}
       >
         <OrbitalRings />
         <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <motion.div className="mb-12" initial={{ opacity: 0, y: 40 }} animate={ctaInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}>
+          <motion.div className="mb-12" initial={{ opacity: 0, y: 40 }} animate={ctaInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, ease, delay: 0.2 }}>
             <h2 className="text-7xl md:text-8xl font-semibold mb-6 leading-tight text-white">Have<br />an idea?<br />We make it happen</h2>
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={ctaInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={ctaInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, ease, delay: 0.4 }}>
             <Link
               ref={ctaBtnRef as any}
               to="/"
@@ -294,12 +347,8 @@ const CTASection = () => {
   );
 };
 
-
-// ========================================================
-// POST ROW — editorial list style for "Latest insights"
-// ========================================================
 const PostRow = ({ post, index }: { post: any; index: number }) => {
-  const rowRef  = useRef(null);
+  const rowRef = useRef(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const rowInView = useInView(rowRef, { once: true, margin: "-60px" });
 
@@ -314,25 +363,37 @@ const PostRow = ({ post, index }: { post: any; index: number }) => {
   return (
     <div ref={rowRef} className="relative">
       <div className="absolute top-0 left-0 right-0 h-px bg-gray-100 overflow-hidden">
-        <div ref={lineRef} className="h-full bg-gradient-to-r from-transparent via-gray-400 to-transparent" style={{ transform: "scaleX(0)" }} />
+        <div ref={lineRef} className="h-full bg-gradient-to-r from-transparent via-[#1a8917]/40 to-transparent" style={{ transform: "scaleX(0)" }} />
       </div>
       <motion.a
         href={`/blog/${post.id}`}
-        className="group grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-4 sm:gap-8 items-start py-7 sm:py-8"
+        className="group grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-5 sm:gap-8 items-start py-8 sm:py-9"
         initial={{ opacity: 0, y: 24 }}
         animate={rowInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.04 }}
+        transition={{ duration: 0.6, ease, delay: index * 0.04 }}
       >
-        <div className="space-y-2 flex-1 min-w-0">
+        <div className="space-y-3 flex-1 min-w-0">
           <div className="flex items-center gap-3 flex-wrap">
-            <CategoryPill label={post.category} />
-            <span className="flex items-center gap-1 text-xs text-gray-400"><Calendar className="w-3 h-3" />{post.date}</span>
-            <span className="flex items-center gap-1 text-xs text-gray-400"><Clock className="w-3 h-3" />{post.readTime}</span>
+            <MediumTag label={post.category} />
+            <span className="text-gray-300">·</span>
+            <span className="text-xs text-gray-400 flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
+            <span className="text-gray-300">·</span>
+            <span className="text-xs text-gray-400 flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
           </div>
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900 leading-snug group-hover:underline underline-offset-2 line-clamp-2">{post.title}</h3>
-          <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 hidden sm:block">{post.excerpt}</p>
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 leading-snug group-hover:text-[#1a8917] transition-colors line-clamp-2" style={{ fontFamily: "'Georgia', 'Cambria', 'Times New Roman', serif" }}>
+            {post.title}
+          </h3>
+          <p className="text-sm text-gray-600 leading-relaxed line-clamp-2 hidden sm:block" style={{ fontFamily: "'Georgia', 'Cambria', 'Times New Roman', serif" }}>
+            {post.excerpt}
+          </p>
+          <div className="flex items-center gap-3 pt-1">
+            <div className={`w-5 h-5 rounded-full bg-gradient-to-br ${post.avatar ?? "from-[#1a8917] to-[#15803d]"} flex items-center justify-center flex-shrink-0`}>
+              <User className="w-2.5 h-2.5 text-white" />
+            </div>
+            <span className="text-xs text-gray-500 font-medium">{post.author ?? "Sniper Systems"}</span>
+          </div>
         </div>
-        <div className="flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-gray-100">
+        <div className="flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden bg-gray-100">
           <img src={post.image} alt={post.title} loading="lazy" decoding="async"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>
@@ -341,15 +402,10 @@ const PostRow = ({ post, index }: { post: any; index: number }) => {
   );
 };
 
-
-// ========================================================
-// BLOG PAGE
-// ========================================================
 const Index = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showWhiteScreen, setShowWhiteScreen] = useState(true);
 
-  // SEO Meta Tags
   useSEO({
     title: "IT Blogs & Insights | Sniper Systems | Technology & IT Solutions",
     description: "Explore Sniper Systems blog for the latest insights on IT infrastructure, managed services, cloud solutions, cybersecurity, and enterprise technology trends.",
@@ -372,7 +428,7 @@ const Index = () => {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  const blogPosts = [
+  const rawBlogPosts = [
     { id: "the-hidden-technology-behind-indias-gcc-boom-why-it-infrastructure-matters", title: "The Hidden Technology Behind India's GCC Boom: Why IT Infrastructure Is Becoming the Biggest Investment", excerpt: "India's GCC landscape is evolving beyond talent. Discover why IT infrastructure, hybrid cloud, cybersecurity, and AI readiness are becoming the defining investments for Global Capability Centers.", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80", date: "July 20, 2026", readTime: "10 min read", category: "Enterprise IT" },
     { id: "why-remote-engineering-teams-are-transforming-manufacturing-and-product-design", title: "Why Remote Engineering Teams Are Transforming Manufacturing and Product Design", excerpt: "Discover how remote engineering teams are transforming manufacturing and product design with secure remote workstations, GPU-powered collaboration, and enterprise IT infrastructure.", image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1600&q=80", date: "July 18, 2026", readTime: "9 min read", category: "Engineering" },
     { id: "how-ai-powered-document-collaboration-is-transforming-modern-business-workflows", title: "How AI-Powered Document Collaboration Is Transforming Modern Business Workflows", excerpt: "Discover how Adobe Document Cloud, Adobe Acrobat, and Adobe Acrobat Studio help enterprises build smarter, AI-powered document workflows that improve collaboration and productivity.", image: "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1600&q=80", date: "July 15, 2026", readTime: "9 min read", category: "Document AI" },
@@ -397,7 +453,8 @@ const Index = () => {
     { id: 8, title: "The Rise of Global Capability Centers in India", excerpt: "Understanding the GCC boom in India and how technology partnerships are enabling multinational corporations to establish successful operations in the region.", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80", date: "October 20, 2025", readTime: "7 min read", category: "Industry Insights" },
   ];
 
-  const featuredPost = blogPosts[0];
+  const blogPosts = useRef(assignAuthorsToPosts(rawBlogPosts)).current;
+
   const postO = blogPosts.find(p => p.id === "the-hidden-technology-behind-indias-gcc-boom-why-it-infrastructure-matters") || blogPosts[0];
   const postN = blogPosts.find(p => p.id === "why-remote-engineering-teams-are-transforming-manufacturing-and-product-design") || blogPosts[1];
   const postM = blogPosts.find(p => p.id === "how-ai-powered-document-collaboration-is-transforming-modern-business-workflows") || blogPosts[2];
@@ -408,24 +465,20 @@ const Index = () => {
   const postG = blogPosts.find(p => p.id === "how-enterprises-are-using-azure-openai-to-drive-productivity-and-innovation-in-2026") || blogPosts[7];
   const postH = blogPosts.find(p => p.id === "why-businesses-are-choosing-dell-dual-monitor-setups-for-higher-productivity") || blogPosts[9];
   const postF = blogPosts.find(p => p.id === "microsoft-threat-protection-strengthening-enterprise-security") || blogPosts[8];
-  const postA = blogPosts.find(p => p.id === "bloga") || blogPosts[14];
   const postB = blogPosts.find(p => p.id === "blogb") || blogPosts[13];
   const postC = blogPosts.find(p => p.id === "interactive-3d-business-unity-studio") || blogPosts[12];
   const postD = blogPosts.find(p => p.id === "blogd") || blogPosts[11];
   const postE = blogPosts.find(p => p.id === "bim-digital-twins-aec-redefined") || blogPosts[10];
   const regularPosts = blogPosts.slice(14);
 
-  const heroRef       = useRef(null);
-  const featuredRef   = useRef(null);
-  const latestRef     = useRef(null);
-  const newsletterRef = useRef(null);
+  const heroRef = useRef(null);
+  const featuredRef = useRef(null);
+  const latestRef = useRef(null);
 
-  const heroInView       = useInView(heroRef,       { once: true, margin: "-60px" });
-  const featuredInView   = useInView(featuredRef,   { once: true, margin: "-60px" });
-  const latestInView     = useInView(latestRef,     { once: true, margin: "-60px" });
-  const newsletterInView = useInView(newsletterRef, { once: true, margin: "-80px" });
+  const heroInView = useInView(heroRef, { once: true, margin: "-60px" });
+  const featuredInView = useInView(featuredRef, { once: true, margin: "-60px" });
+  const latestInView = useInView(latestRef, { once: true, margin: "-60px" });
 
-  // ✦ GSAP: Hero heading word-stagger
   const heroHeadingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     const el = heroHeadingRef.current;
@@ -437,7 +490,6 @@ const Index = () => {
     );
   }, []);
 
-  // ✦ GSAP: Featured category badge pop-in
   const badgeRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!featuredInView || !badgeRef.current) return;
@@ -447,7 +499,7 @@ const Index = () => {
     );
   }, [featuredInView]);
 
-  const marqueeTopItems    = ["Blog", "Insights", "Technology", "IT Trends", "Innovation", "Sniper Systems", "Enterprise Tech"];
+  const marqueeTopItems = ["Blog", "Insights", "Technology", "IT Trends", "Innovation", "Sniper Systems", "Enterprise Tech"];
   const marqueeBottomItems = ["IT Infrastructure", "Managed Services", "MDM", "Cybersecurity", "AI & ML", "Networking", "Sustainability"];
 
   return (
@@ -464,7 +516,7 @@ const Index = () => {
               {/* eyebrow */}
               <motion.div className="inline-flex items-center gap-2 bg-gray-100 rounded-full px-4 py-1.5 mb-6"
                 initial={{ opacity: 0, y: 12 }} animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 1.0 }}>
+                transition={{ duration: 0.5, ease, delay: 1.0 }}>
                 <TrendingUp className="w-3.5 h-3.5 text-gray-500" />
                 <span className="text-xs font-bold uppercase tracking-widest text-gray-500">Insights & Analysis</span>
               </motion.div>
@@ -479,13 +531,13 @@ const Index = () => {
 
               <motion.p className="text-lg text-gray-500 max-w-md leading-relaxed mb-8"
                 initial={{ opacity: 0, y: 24 }} animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 1.55 }}>
+                transition={{ duration: 0.7, ease, delay: 1.55 }}>
                 Expert perspectives on enterprise IT, cloud infrastructure, cybersecurity, and the technologies shaping modern business.
               </motion.p>
 
               <motion.div className="flex flex-wrap gap-2 justify-center lg:justify-start"
                 initial={{ opacity: 0 }} animate={heroInView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 1.7 }}>
+                transition={{ duration: 0.6, ease, delay: 1.7 }}>
                 {["Infrastructure", "Cybersecurity", "Cloud AI", "Engineering", "Enterprise IT"].map(tag => (
                   <span key={tag} className="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200 hover:border-gray-400 hover:text-gray-700 transition-colors cursor-default">{tag}</span>
                 ))}
@@ -495,7 +547,7 @@ const Index = () => {
             {/* Right — Lottie */}
             <motion.div className="flex-1 flex items-center justify-center w-full max-w-sm lg:max-w-md"
               initial={{ opacity: 0, x: 30 }} animate={heroInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.3 }}>
+              transition={{ duration: 1, ease, delay: 1.3 }}>
               <LottieAnimation />
             </motion.div>
           </div>
@@ -504,52 +556,49 @@ const Index = () => {
 
       <MarqueeTicker items={marqueeTopItems} speed={24} />
 
-      {/* ==================== SPOTLIGHT + STACK ==================== */}
       <section className="bg-white py-16 sm:py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-10" ref={featuredRef}>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-end justify-between mb-12 pb-8 border-b border-gray-100" ref={featuredRef}>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={featuredInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-1">Latest Stories</p>
-              <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">Featured articles</h2>
+              transition={{ duration: 0.7, ease }}>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#1a8917] mb-2" ref={badgeRef}>Latest Stories</p>
+              <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight" style={{ fontFamily: "'Georgia', 'Cambria', 'Times New Roman', serif" }}>Featured articles</h2>
             </motion.div>
             <motion.a href="#all-posts"
-              className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-gray-500 hover:text-gray-900 transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-[#1a8917] transition-colors"
               initial={{ opacity: 0 }} animate={featuredInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}>
               View all <ArrowRight className="w-4 h-4" />
             </motion.a>
           </div>
 
-          {/* Row 1: Hero card (left) + 3 stack cards (right) */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 mb-12 pb-12 border-b border-gray-100">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 mb-14 pb-14 border-b border-gray-100">
             <HeroCard post={postO} inView={featuredInView} />
-            <div className="flex flex-col justify-between gap-0">
+            <div className="flex flex-col justify-between gap-0 pt-2 lg:pt-0">
               {[postN, postM, postL].map((post, i) => (
                 <StackCard key={post.id} post={post} index={i} inView={featuredInView} />
               ))}
             </div>
           </div>
 
-          {/* Row 2: 3-col grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 pb-12 border-b border-gray-100">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 mb-14 pb-14 border-b border-gray-100">
             {[postK, postJ, postI].map((post, i) => (
               <GridCard key={post.id} post={post} index={i} inView={featuredInView} />
             ))}
           </div>
 
-          {/* Row 3: Hero card (right) + 3 stack cards (left) */}
-          <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 mb-12 pb-12 border-b border-gray-100">
-            <div className="flex flex-col justify-between gap-0">
+          <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-10 mb-14 pb-14 border-b border-gray-100">
+            <div className="flex flex-col justify-between gap-0 order-2 lg:order-1 pt-2 lg:pt-0">
               {[postG, postH, postF].map((post, i) => (
                 <StackCard key={post.id} post={post} index={i} inView={featuredInView} />
               ))}
             </div>
-            <HeroCard post={postE} inView={featuredInView} />
+            <div className="order-1 lg:order-2">
+              <HeroCard post={postE} inView={featuredInView} />
+            </div>
           </div>
 
-          {/* Row 4: 3-col grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
             {[postD, postC, postB].map((post, i) => (
               <GridCard key={post.id} post={post} index={i} inView={featuredInView} />
             ))}
@@ -557,18 +606,22 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ✦ GSAP Marquee — between featured and latest */}
       <MarqueeTicker items={marqueeBottomItems} speed={30} />
 
-      {/* ==================== ALL POSTS ==================== */}
-      <section className="bg-white py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-16" ref={latestRef}>
+      <section className="bg-white py-20 px-6" id="all-posts">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-12 pb-8 border-b border-gray-100" ref={latestRef}>
+            <motion.p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#1a8917] mb-2"
+              initial={{ opacity: 0, y: 20 }} animate={latestInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, ease }}>
+              Archive
+            </motion.p>
             <motion.h2
-              className="text-6xl md:text-7xl font-semibold text-gray-900 mb-6 leading-tight"
+              className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight"
+              style={{ fontFamily: "'Georgia', 'Cambria', 'Times New Roman', serif" }}
               initial={{ opacity: 0, y: 50 }}
               animate={latestInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.9, ease }}
             >
               Latest insights
             </motion.h2>
@@ -582,18 +635,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ==================== NEWSLETTER ==================== */}
-
-
-      {/* ==================== CTA ==================== */}
       <CTASection />
 
-      {/* Scroll to Top */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.button
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 w-14 h-14 bg-white border-2 border-gray-900 rounded-full flex items-center justify-center text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300 z-50 shadow-lg"
+            className="fixed bottom-8 right-8 w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center text-gray-700 hover:bg-[#1a8917] hover:text-white hover:border-[#1a8917] transition-all duration-300 z-50 shadow-md hover:shadow-lg"
             aria-label="Scroll to top"
             initial={{ opacity: 0, scale: 0.6, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -602,7 +650,7 @@ const Index = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <ArrowRight className="w-6 h-6 -rotate-90" />
+            <ArrowRight className="w-5 h-5 -rotate-90" />
           </motion.button>
         )}
       </AnimatePresence>
