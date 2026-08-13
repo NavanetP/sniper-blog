@@ -429,6 +429,7 @@ const Index = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const rawBlogPosts = [
+    { id: "microsoft-security-copilot-ai-powered-enterprise-cybersecurity-2026", title: "Microsoft Security Copilot: The Future of AI-Powered Enterprise Cybersecurity in 2026", excerpt: "Discover how Microsoft Security Copilot uses generative AI to help enterprises investigate threats faster, improve analyst productivity, and strengthen security operations in 2026.", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80", date: "August 13, 2026", readTime: "10 min read", category: "Cybersecurity" },
     { id: "the-hidden-technology-behind-indias-gcc-boom-why-it-infrastructure-matters", title: "The Hidden Technology Behind India's GCC Boom: Why IT Infrastructure Is Becoming the Biggest Investment", excerpt: "India's GCC landscape is evolving beyond talent. Discover why IT infrastructure, hybrid cloud, cybersecurity, and AI readiness are becoming the defining investments for Global Capability Centers.", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80", date: "July 20, 2026", readTime: "10 min read", category: "Enterprise IT" },
     { id: "why-remote-engineering-teams-are-transforming-manufacturing-and-product-design", title: "Why Remote Engineering Teams Are Transforming Manufacturing and Product Design", excerpt: "Discover how remote engineering teams are transforming manufacturing and product design with secure remote workstations, GPU-powered collaboration, and enterprise IT infrastructure.", image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1600&q=80", date: "July 18, 2026", readTime: "9 min read", category: "Engineering" },
     { id: "how-ai-powered-document-collaboration-is-transforming-modern-business-workflows", title: "How AI-Powered Document Collaboration Is Transforming Modern Business Workflows", excerpt: "Discover how Adobe Document Cloud, Adobe Acrobat, and Adobe Acrobat Studio help enterprises build smarter, AI-powered document workflows that improve collaboration and productivity.", image: "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1600&q=80", date: "July 15, 2026", readTime: "9 min read", category: "Document AI" },
@@ -455,20 +456,21 @@ const Index = () => {
 
   const blogPosts = useRef(assignAuthorsToPosts(rawBlogPosts)).current;
 
-  const postO = blogPosts.find(p => p.id === "the-hidden-technology-behind-indias-gcc-boom-why-it-infrastructure-matters") || blogPosts[0];
-  const postN = blogPosts.find(p => p.id === "why-remote-engineering-teams-are-transforming-manufacturing-and-product-design") || blogPosts[1];
-  const postM = blogPosts.find(p => p.id === "how-ai-powered-document-collaboration-is-transforming-modern-business-workflows") || blogPosts[2];
-  const postL = blogPosts[3];
-  const postK = blogPosts[4];
-  const postJ = blogPosts.find(p => p.id === "how-microsoft-intune-is-helping-enterprises-secure-hybrid-work-and-simplify-endpoint-management") || blogPosts[5];
-  const postI = blogPosts.find(p => p.id === "how-real-time-3d-and-xr-are-transforming-automotive-product-development") || blogPosts[6];
-  const postG = blogPosts.find(p => p.id === "how-enterprises-are-using-azure-openai-to-drive-productivity-and-innovation-in-2026") || blogPosts[7];
-  const postH = blogPosts.find(p => p.id === "why-businesses-are-choosing-dell-dual-monitor-setups-for-higher-productivity") || blogPosts[9];
-  const postF = blogPosts.find(p => p.id === "microsoft-threat-protection-strengthening-enterprise-security") || blogPosts[8];
-  const postB = blogPosts.find(p => p.id === "blogb") || blogPosts[13];
-  const postC = blogPosts.find(p => p.id === "interactive-3d-business-unity-studio") || blogPosts[12];
-  const postD = blogPosts.find(p => p.id === "blogd") || blogPosts[11];
-  const postE = blogPosts.find(p => p.id === "bim-digital-twins-aec-redefined") || blogPosts[10];
+  const postP = blogPosts.find(p => p.id === "microsoft-security-copilot-ai-powered-enterprise-cybersecurity-2026") || blogPosts[0];
+  const postO = blogPosts.find(p => p.id === "the-hidden-technology-behind-indias-gcc-boom-why-it-infrastructure-matters") || blogPosts[1];
+  const postN = blogPosts.find(p => p.id === "why-remote-engineering-teams-are-transforming-manufacturing-and-product-design") || blogPosts[2];
+  const postM = blogPosts.find(p => p.id === "how-ai-powered-document-collaboration-is-transforming-modern-business-workflows") || blogPosts[3];
+  const postL = blogPosts[4];
+  const postK = blogPosts[5];
+  const postJ = blogPosts.find(p => p.id === "how-microsoft-intune-is-helping-enterprises-secure-hybrid-work-and-simplify-endpoint-management") || blogPosts[6];
+  const postI = blogPosts.find(p => p.id === "how-real-time-3d-and-xr-are-transforming-automotive-product-development") || blogPosts[7];
+  const postG = blogPosts.find(p => p.id === "how-enterprises-are-using-azure-openai-to-drive-productivity-and-innovation-in-2026") || blogPosts[8];
+  const postH = blogPosts.find(p => p.id === "why-businesses-are-choosing-dell-dual-monitor-setups-for-higher-productivity") || blogPosts[10];
+  const postF = blogPosts.find(p => p.id === "microsoft-threat-protection-strengthening-enterprise-security") || blogPosts[9];
+  const postB = blogPosts.find(p => p.id === "blogb") || blogPosts[14];
+  const postC = blogPosts.find(p => p.id === "interactive-3d-business-unity-studio") || blogPosts[13];
+  const postD = blogPosts.find(p => p.id === "blogd") || blogPosts[12];
+  const postE = blogPosts.find(p => p.id === "bim-digital-twins-aec-redefined") || blogPosts[11];
   const regularPosts = blogPosts.slice(14);
 
   const heroRef = useRef(null);
@@ -573,33 +575,33 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 mb-14 pb-14 border-b border-gray-100">
-            <HeroCard post={postO} inView={featuredInView} />
+            <HeroCard post={postP} inView={featuredInView} />
             <div className="flex flex-col justify-between gap-0 pt-2 lg:pt-0">
-              {[postN, postM, postL].map((post, i) => (
+              {[postO, postN, postM].map((post, i) => (
                 <StackCard key={post.id} post={post} index={i} inView={featuredInView} />
               ))}
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 mb-14 pb-14 border-b border-gray-100">
-            {[postK, postJ, postI].map((post, i) => (
+            {[postL, postK, postJ].map((post, i) => (
               <GridCard key={post.id} post={post} index={i} inView={featuredInView} />
             ))}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-10 mb-14 pb-14 border-b border-gray-100">
             <div className="flex flex-col justify-between gap-0 order-2 lg:order-1 pt-2 lg:pt-0">
-              {[postG, postH, postF].map((post, i) => (
+              {[postI, postG, postH].map((post, i) => (
                 <StackCard key={post.id} post={post} index={i} inView={featuredInView} />
               ))}
             </div>
             <div className="order-1 lg:order-2">
-              <HeroCard post={postE} inView={featuredInView} />
+              <HeroCard post={postF} inView={featuredInView} />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
-            {[postD, postC, postB].map((post, i) => (
+            {[postE, postD, postC].map((post, i) => (
               <GridCard key={post.id} post={post} index={i} inView={featuredInView} />
             ))}
           </div>
@@ -659,3 +661,4 @@ const Index = () => {
 };
 
 export default Index;
+
