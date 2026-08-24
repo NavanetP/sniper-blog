@@ -361,7 +361,7 @@ const BlogR = () => {
     ogDescription:
       "Beyond visualization — discover how AI-powered digital twins are connecting machine data, documentation, 3D context and operational knowledge to transform modern manufacturing.",
     ogImage:
-      "https://images.unsplash.com/photo-1565514020179-026b92b84bb6?w=1600&q=80",
+      "https://www.advancedtech.com/wp-content/uploads/2024/09/Facility-Condition-Assessments_Image-1_1200x628.jpg",
     ogUrl:
       "https://sniperindia.com/blog/digital-twins-manufacturing-ai-real-time-3d-intelligent-factory",
     canonicalUrl:
@@ -371,7 +371,7 @@ const BlogR = () => {
     twitterDescription:
       "From visualization to operational intelligence — how AI-powered digital twins are reshaping manufacturing.",
     twitterImage:
-      "https://images.unsplash.com/photo-1565514020179-026b92b84bb6?w=1600&q=80",
+      "https://www.advancedtech.com/wp-content/uploads/2024/09/Facility-Condition-Assessments_Image-1_1200x628.jpg",
   });
 
   useEffect(() => {
@@ -657,7 +657,7 @@ const BlogR = () => {
               style={{ borderRadius: "2.5rem", willChange: "transform, border-radius", transformOrigin: "center center" }}
             >
               <ParallaxImage
-                src="https://images.unsplash.com/photo-1565514020179-026b92b84bb6?w=1600&q=80"
+                src="https://www.advancedtech.com/wp-content/uploads/2024/09/Facility-Condition-Assessments_Image-1_1200x628.jpg"
                 alt="Digital twin industrial manufacturing — AI-powered intelligent factory"
                 className="w-full h-full"
               >
