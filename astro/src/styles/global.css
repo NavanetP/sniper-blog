@@ -1,0 +1,118 @@
+/*
+  Global styles for the Astro site.
+  Mirrors src/index.css from the Vite app so CSS variables and
+  Tailwind layers are available to all island React components.
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 357 82% 49%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 220 14% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 357 82% 49%;
+
+    --radius: 0.5rem;
+
+    --brand-red: 357 82% 49%;
+    --brand-navy: 222 47% 11%;
+    --brand-gray: 220 14% 96%;
+    --brand-dark: 222 47% 8%;
+  }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 0 0% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 0 0% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 357 82% 49%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 47% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 222 47% 15%;
+    --muted-foreground: 220 9% 65%;
+    --accent: 222 47% 15%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 47% 17%;
+    --input: 222 47% 17%;
+    --ring: 357 82% 49%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .container-custom { @apply container mx-auto px-4; }
+  .section-padding  { @apply py-16 md:py-24; }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold
+           transition-all duration-300 hover:opacity-90 hover:shadow-lg;
+  }
+  .btn-outline {
+    @apply border-2 border-primary text-primary px-6 py-3 rounded-md font-semibold
+           transition-all duration-300 hover:bg-primary hover:text-primary-foreground;
+  }
+  .card-hover    { @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1; }
+  .gradient-brand { @apply bg-gradient-to-r from-primary to-[hsl(357,82%,40%)]; }
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-[hsl(357,82%,35%)] bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in   { animation: fadeIn 0.5s ease-out forwards; }
+  .animate-slide-down { animation: slideDown 0.3s ease-out forwards; }
+  .animate-slideDown  { animation: slideDown 0.5s ease-in-out forwards; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}

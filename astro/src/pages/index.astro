@@ -1,0 +1,26 @@
+---
+/**
+ * /  → Blog hub (mirrors the React Index.tsx page at route "/")
+ *
+ * The React component is heavy (GSAP, framer-motion, parallax) so we
+ * mount it as a single client:only island.  The <head> meta is
+ * rendered statically by Astro at build time — the key SEO win.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BlogHub from "@/pages/Index";
+---
+
+<BaseLayout
+  title="IT Blogs & Insights | Sniper Systems | Technology & IT Solutions"
+  description="Explore Sniper Systems blog for the latest insights on IT infrastructure, managed services, cloud solutions, cybersecurity, and enterprise technology trends."
+  keywords="IT blog India, managed IT services blog, cloud computing articles, cybersecurity insights, enterprise IT solutions blog"
+  ogImage="https://sniperindia.com/wp-content/uploads/2023/09/sniper-systems-banner.jpg"
+  canonicalUrl="https://blog.sniperindia.com/"
+>
+  <!--
+    client:only="react" — skip SSR entirely for this island (it uses
+    browser-only APIs like GSAP ScrollTrigger and framer-motion).
+    The static <head> above is already crawlable.
+  -->
+  <BlogHub client:only="react" />
+</BaseLayout>
