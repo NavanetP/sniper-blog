@@ -1,7 +1,19 @@
-import imgSrccc from "@/assets/aaaa87d7-c10a-420c-99fb-d72436796abd.png";
-import imgSrcc from "@/assets/sniper-logo-black.png";
-import { memo, useEffect, useRef, useState } from 'react';
-import { Link } from "react-router-dom";
+import {
+  FiMail,
+  FiPhone,
+  FiMapPin,
+} from "react-icons/fi";
+
+import {
+  FaLinkedinIn,
+  FaFacebookF,
+  FaInstagram,
+  FaYoutube,
+} from "react-icons/fa";
+
+import { FaXTwitter } from "react-icons/fa6";
+import sniper from "@/assets/sniper-logo-black.png";
+
 const quickLinks = [
   { name: "Home", href: "/" },
   { name: "Blog", href: "https://blog.sniperindia.com/" },
@@ -58,21 +70,13 @@ const industriesLinks = [
   { name: "Education", href: "/industries/Education" },
 ];
 
-const socialLinks = [
-  { name: "LinkedIn", href: "https://www.linkedin.com/company/sniper-systems-solutions-pvt-ltd" },
-  { name: "Facebook", href: "https://www.facebook.com/snipersystemsandsolution/" },
-  { name: "Instagram", href: "https://www.instagram.com/sniperindia/" },
-  { name: "Twitter / X", href: "https://x.com/_sniperindia" },
-  { name: "YouTube", href: "https://www.youtube.com/@Snipersystemsandsolutions" },
-];
-
 const locations = [
   "Chennai",
   "Bangalore",
   "Hyderabad",
-  "Gurugram",
   "Coimbatore",
   "Kochi",
+  "Gurugram",
   "Vijayawada",
 ];
 
@@ -84,7 +88,7 @@ const legalLinks = [
 
 // Small badge used for "New" / "We're Hiring" style tags
 const Badge = ({ children }) => (
-  <span className="ml-2 inline-flex items-center rounded-full bg-red-500 px-2 py-0.5 text-[10px] font-medium leading-none text-white">
+  <span className="ml-2 inline-flex items-center rounded-full bg-red-500 px-2.5 py-1 text-[10px] font-regular leading-none tracking-wide text-white">
     {children}
   </span>
 );
@@ -92,13 +96,16 @@ const Badge = ({ children }) => (
 // Reusable footer link column
 const LinkColumn = ({ title, links }) => (
   <div>
-    <h3 className="text-lg font-normal mb-6 text-stone-900">{title}</h3>
-    <ul className="space-y-3">
+    <h3 className="text-base font-medium mb-5 text-stone-900">{title}</h3>
+    <ul className="space-y-3.5">
       {links.map((link) => (
         <li key={link.href}>
           <a
             href={link.href}
-            className="inline-flex items-center text-base text-stone-700 hover:text-stone-900 transition-colors"
+            className={`inline-flex items-center text-sm transition-colors ${link.active
+                ? "text-red-500 hover:text-red-600"
+                : "text-stone-600 hover:text-red-600"
+              }`}
           >
             {link.name}
             {link.badge && <Badge>{link.badge}</Badge>}
@@ -109,342 +116,191 @@ const LinkColumn = ({ title, links }) => (
   </div>
 );
 
-// Faint dotted world-map graphic used behind the locations bar.
-// Pure SVG / CSS — no external image asset required.
-const LocationsMap = () => (
-  <svg
-    viewBox="0 0 400 90"
-    className="hidden lg:block h-16 w-auto text-stone-400"
-    fill="none"
-    aria-hidden="true"
-  >
-    {Array.from({ length: 12 }).map((_, row) =>
-      Array.from({ length: 40 }).map((_, col) => {
-        // sparse pseudo-random dot placement to suggest a world map silhouette
-        const seed = (row * 40 + col) % 7;
-        if (seed !== 0) return null;
-        return (
-          <circle
-            key={`${row}-${col}`}
-            cx={col * 10 + 4}
-            cy={row * 8 + 4}
-            r="1.4"
-            fill="currentColor"
-            opacity="0.35"
-          />
-        );
-      })
-    )}
-    <circle cx="60" cy="30" r="3" fill="#ef4444" />
-    <circle cx="140" cy="50" r="3" fill="#ef4444" />
-    <circle cx="230" cy="20" r="3" fill="#ef4444" />
-    <circle cx="300" cy="60" r="3" fill="#ef4444" />
-    <circle cx="360" cy="35" r="3" fill="#ef4444" />
-  </svg>
+// Sniper wordmark logo — using the real asset from /assets.
+// If logo.png lives under src/assets and needs to be bundled (Vite/CRA/webpack),
+// use `import logo from "../assets/logo.png";` at the top of the file and
+// swap the src below to src={logo}.
+const SniperLogo = () => (
+  <a href="/" aria-label="Sniper Systems & Solutions" className="inline-flex items-center">
+    <img
+      src={sniper}
+      alt="Sniper"
+      className="h-16 w-auto"
+    />
+  </a>
 );
 
-
-const TileSection = memo(
-  ({
-    sectionIndex,
-    verticalAlign,
-    tileSize,
-    animationDuration,
-    tilesPerSection,
-    isInView,
-  }: {
-    sectionIndex: number;
-    verticalAlign: 'start' | 'center' | 'end';
-    tileSize: number;
-    animationDuration: number;
-    tilesPerSection: number;
-    isInView: boolean;
-  }) => {
-    const sectionStyle: React.CSSProperties = {
-      top: verticalAlign === 'start' ? '8px' : verticalAlign === 'center' ? '50%' : undefined,
-      bottom: verticalAlign === 'end' ? '8px' : undefined,
-      transform: verticalAlign === 'center' ? 'translateY(-50%) translateZ(0)' : 'translateZ(0)',
-      display: 'grid',
-      gridAutoFlow: 'dense',
-      gridTemplateColumns: `repeat(auto-fill, ${tileSize}px)`,
-      gridTemplateRows: `repeat(auto-fill, ${tileSize}px)`,
-      alignContent: verticalAlign,
-      justifyContent: 'start',
-      gap: 0,
-      height: '33.333%',
-      contain: 'layout style paint',
-      willChange: 'contents',
-    };
-
-    return (
-      <div className="footer-tile-section absolute inset-x-2" style={sectionStyle}>
-        {Array.from({ length: tilesPerSection }).map((_, i) => {
-          const delay = (((i + sectionIndex * 100) * 45) % 100) / 100 * animationDuration;
-          return (
-            <div
-              key={`${sectionIndex}-${i}`}
-              className="footer-tile-wrap relative"
-              style={{
-                width: tileSize,
-                height: tileSize,
-                contain: 'layout style paint',
-              }}
-            >
-              <div
-                className={`footer-tile absolute inset-[3px] rounded-md ${isInView ? 'running' : 'paused'}`}
-                style={{
-                  background: 'rgba(248, 138, 138, 0.13)',
-                  opacity: 0,
-                  animationDelay: `${delay}s`,
-                  animationDuration: `${animationDuration}s`,
-                  willChange: 'opacity',
-                  transform: 'translateZ(0)',
-                  backfaceVisibility: 'hidden',
-                }}
-              />
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-);
-
-TileSection.displayName = 'TileSection';
-
-const DecorativeTilesBackground = memo(() => {
-  const tileSize = 28;
-  const animationDuration = 8;
-  const cornerGap = '34px';
-  const tilesPerSection = 140;
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    if (typeof IntersectionObserver === 'undefined') {
-      setIsInView(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          setIsInView(entry.isIntersecting);
-        }
-      },
-      {
-        rootMargin: '200px',
-        threshold: 0,
-      }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+export const Footer = () => {
   return (
-    <>
-      <style>{`
-        @keyframes footer-tiles {
-          0%, 40%, 80% { opacity: 0; }
-          20%, 60% { opacity: 1; }
-        }
-        .footer-tile {
-          animation-name: footer-tiles;
-          animation-iteration-count: infinite;
-          animation-timing-function: ease;
-        }
-        .footer-tile.running {
-          animation-play-state: running;
-        }
-        .footer-tile.paused {
-          animation-play-state: paused;
-        }
-        .footer-tile-section {
-          content-visibility: auto;
-        }
-      `}</style>
-      <div
-        ref={containerRef}
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 select-none"
-        style={{
-          padding: cornerGap,
-          contain: 'layout style paint',
-        }}
-      >
-        <div
-          className="w-full h-full rounded-3xl overflow-hidden border border-stone-400/30 relative"
-          style={{
-            backgroundImage: `
-              repeating-linear-gradient(to right, rgba(168,162,158,0.22) 0, rgba(168,162,158,0.22) 1px, transparent 1px, transparent ${tileSize}px),
-              repeating-linear-gradient(to bottom, rgba(168,162,158,0.22) 0, rgba(168,162,158,0.22) 1px, transparent 1px, transparent ${tileSize}px)
-            `,
-            backgroundSize: `${tileSize}px ${tileSize}px`,
-            backgroundColor: 'rgba(255,255,255,0.03)',
-            contain: 'layout style paint',
-            willChange: 'contents',
-            transform: 'translateZ(0)',
-          }}
-        >
-          <TileSection
-            sectionIndex={0}
-            verticalAlign="start"
-            tileSize={tileSize}
-            animationDuration={animationDuration}
-            tilesPerSection={tilesPerSection}
-            isInView={isInView}
-          />
-          <TileSection
-            sectionIndex={1}
-            verticalAlign="center"
-            tileSize={tileSize}
-            animationDuration={animationDuration}
-            tilesPerSection={tilesPerSection}
-            isInView={isInView}
-          />
-          <TileSection
-            sectionIndex={2}
-            verticalAlign="end"
-            tileSize={tileSize}
-            animationDuration={animationDuration}
-            tilesPerSection={tilesPerSection}
-            isInView={isInView}
-          />
-        </div>
-      </div>
-    </>
-  );
-});
-
-DecorativeTilesBackground.displayName = 'DecorativeTilesBackground';
-
-export const Footer = memo(() => {
-  const footerRef = useRef<HTMLElement>(null);
-  const [revealed, setRevealed] = useState(false);
-
-  useEffect(() => {
-    const el = footerRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') {
-      setRevealed(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setRevealed(true);
-            observer.disconnect();
-          }
-        }
-      },
-      {
-        rootMargin: '100px',
-        threshold: 0,
-      }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <footer
-      ref={footerRef}
-      className={`relative bg-stone-200 text-stone-800 overflow-hidden footer-optimized ${revealed ? 'footer-revealed' : 'footer-hidden'}`}
-      style={{
-        contain: 'layout style paint',
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-      }}
-    >
-      <style>{`
-        .footer-optimized {
-          content-visibility: auto;
-          contain-intrinsic-size: 1000px;
-        }
-        .footer-hidden .footer-content {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        .footer-revealed .footer-content {
-          opacity: 1;
-          transform: translateY(0);
-          transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-        }
-        .footer-hidden .locations-bar {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        .footer-revealed .locations-bar {
-          opacity: 1;
-          transform: translateY(0);
-          transition: opacity 0.7s ease-out 0.15s, transform 0.7s ease-out 0.15s;
-        }
-        .footer-hidden .footer-bottom {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        .footer-revealed .footer-bottom {
-          opacity: 1;
-          transform: translateY(0);
-          transition: opacity 0.7s ease-out 0.3s, transform 0.7s ease-out 0.3s;
-        }
-      `}</style>
-      <DecorativeTilesBackground />
-      <div className="relative z-10 container mx-auto px-8 lg:px-16 py-20 footer-content gpu">
+    <footer className="bg-stone-50 text-stone-800 rounded-t-[32px] border-t border-stone-200 shadow-[0_-12px_30px_-12px_rgba(0,0,0,0.12)]">
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-8 md:px-10 lg:px-14 xl:px-16 2xl:px-20 py-14 lg:py-16">
         {/* Top Section — CTA + 5 link columns */}
-        <div
-          className="grid grid-cols-1 lg:grid-cols-6 gap-12 lg:gap-10 mb-20"
-          style={{
-            contentVisibility: 'auto',
-            containIntrinsicSize: '600px',
-          }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[380px_repeat(4,1fr)] gap-y-12 gap-x-8 xl:gap-x-10 2xl:gap-x-12 mb-14">
           {/* CTA */}
-          <div className="lg:col-span-1">
-            <h2 className="text-3xl lg:text-4xl font-light leading-tight mb-6 text-stone-900">
-              Stay connected
+          <div className="max-w-[360px]">
+            <h2 className="text-[26px] md:text-[28px] lg:text-[30px] font-semibold leading-[1.2] tracking-tighter mb-4 text-stone-900 whitespace-nowrap">
+              Stay Connected to
               <br />
-              to the future of
-              <br />
-              Enterprise IT
+              the future of Enterprise IT
             </h2>
-            <p className="text-stone-600 mb-6 max-w-xs">
+            <p className="text-sm leading-6 tracking-tight text-stone-500 mb-6 max-w-xs">
               Crafted with creativity &amp; passion, let&rsquo;s stay connected and reach out
               each other
             </p>
             <a
               href="/contact"
-              className="inline-flex items-center gap-3 rounded-full bg-stone-900 text-stone-50 pl-5 pr-2 py-2 hover:bg-stone-700 transition-colors"
+              className="group relative inline-flex items-center gap-3 rounded-full bg-stone-900 text-stone-50 pl-2 pr-5 py-2 overflow-hidden hover:bg-red-600 transition-colors duration-300 hover:animate-btn-bounce"
             >
-              Get in Touch
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-stone-50 text-stone-900">
-                →
+              {/* Arrow circle — horizontal slide, left to right */}
+              <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-stone-50 text-stone-900 overflow-hidden">
+                <svg
+                  className="absolute h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-6"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+                <svg
+                  className="absolute h-4 w-4 -translate-x-6 transition-transform duration-300 ease-out group-hover:translate-x-0"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </span>
+
+              {/* Text swap */}
+              <span className="relative h-5 overflow-hidden">
+                <span className="block transition-transform duration-300 ease-out group-hover:-translate-y-full">
+                  Get in Touch
+                </span>
+                <span className="absolute left-0 top-0 block translate-y-full transition-transform duration-300 ease-out group-hover:translate-y-0">
+                  Get in Touch
+                </span>
               </span>
             </a>
 
-            <div className="mt-10 space-y-2">
-              <p className="text-lg text-stone-600">Contact Us</p>
-              <p className="text-lg">
+            {/* Contact Section */}
+            <div className="mt-14">
+              <h3 className="text-lg font-medium text-stone-900 mb-6">
+                Contact Us
+              </h3>
+
+              <div className="space-y-5">
+
+                {/* Email */}
+                <a
+                  href="mailto:Enquiry@sniperindia.com"
+                  className="group flex items-center gap-4"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-200 transition-colors group-hover:bg-red-500">
+                    <FiMail className="text-lg text-stone-700 transition-colors group-hover:text-white" />
+                  </div>
+
+                  <div>
+                    <p className="text-sm text-stone-500">Email</p>
+                    <p className="text-[15px] text-stone-800 underline underline-offset-4 group-hover:text-red-600 transition-colors">
+                      Enquiry@sniperindia.com
+                    </p>
+                  </div>
+                </a>
+
+                {/* Phone */}
                 <a
                   href="tel:+918939301100"
-                  className="text-stone-700 hover:text-stone-900 transition-colors"
+                  className="group flex items-center gap-4"
                 >
-                  +91 8939301100
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-200 transition-colors group-hover:bg-red-500">
+                    <FiPhone className="text-lg text-stone-700 transition-colors group-hover:text-white" />
+                  </div>
+
+                  <div>
+                    <p className="text-sm text-stone-500">Phone</p>
+                    <p className="text-[15px] text-stone-800 group-hover:text-red-600 transition-colors">
+                      +91 89393 01100
+                    </p>
+                  </div>
                 </a>
-                {" | "}
-                <a
-                  href="mailto:enquiry@sniperindia.com"
-                  className="text-stone-700 hover:text-stone-900 transition-colors"
-                >
-                  Enquiry@sniperindia.com
-                </a>
-              </p>
+
+                {/* Location — moved here from the old standalone "Our Presence" block */}
+                <div className="group flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-stone-200 transition-colors group-hover:bg-red-500">
+                    <FiMapPin className="text-lg text-stone-700 transition-colors group-hover:text-white" />
+                  </div>
+
+                  <div>
+                    <p className="text-sm text-stone-500">Location</p>
+                    <p className="text-[15px] leading-6 text-stone-800">
+                      {locations.join(" | ")}
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Follow Us */}
+              <div className="mt-10">
+                <h3 className="text-lg font-medium text-stone-900 mb-5">
+                  Follow us on
+                </h3>
+
+                <div className="flex items-center gap-3">
+
+                  {/* LinkedIn */}
+                  <a
+                    href="https://www.linkedin.com/company/sniper-systems-solutions-pvt-ltd"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-11 w-11 items-center justify-center rounded-full bg-stone-200 transition-all duration-300 hover:-translate-y-1 hover:bg-[#0077B5]"
+                  >
+                    <FaLinkedinIn className="text-lg text-stone-600 group-hover:text-white" />
+                  </a>
+
+                  {/* Facebook */}
+                  <a
+                    href="https://www.facebook.com/snipersystemsandsolution/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-11 w-11 items-center justify-center rounded-full bg-stone-200 transition-all duration-300 hover:-translate-y-1 hover:bg-[#1877F2]"
+                  >
+                    <FaFacebookF className="text-lg text-stone-600 group-hover:text-white" />
+                  </a>
+
+                  {/* Instagram */}
+                  <a
+                    href="https://www.instagram.com/sniperindia/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-11 w-11 items-center justify-center rounded-full bg-stone-200 transition-all duration-300 hover:-translate-y-1 hover:bg-gradient-to-br hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF]"
+                  >
+                    <FaInstagram className="text-lg text-stone-600 group-hover:text-white" />
+                  </a>
+
+                  {/* Twitter / X */}
+                  <a
+                    href="https://x.com/_sniperindia"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-11 w-11 items-center justify-center rounded-full bg-stone-200 transition-all duration-300 hover:-translate-y-1 hover:bg-black"
+                  >
+                    <FaXTwitter className="text-lg text-stone-600 group-hover:text-white" />
+                  </a>
+
+                  {/* YouTube */}
+                  <a
+                    href="https://www.youtube.com/@Snipersystemsandsolutions"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-11 w-11 items-center justify-center rounded-full bg-stone-200 transition-all duration-300 hover:-translate-y-1 hover:bg-[#FF0000]"
+                  >
+                    <FaYoutube className="text-lg text-stone-600 group-hover:text-white" />
+                  </a>
+
+                </div>
+              </div>
+
+              {/* Logo — new, sits below Follow Us as requested
+              <div className="mt-10">
+                <SniperLogo />
+              </div>*/}
             </div>
           </div>
 
@@ -452,92 +308,12 @@ export const Footer = memo(() => {
           <LinkColumn title="Solutions" links={solutionsLinks} />
           <LinkColumn title="Partners" links={partnersLinks} />
           <LinkColumn title="Industries" links={industriesLinks} />
-
-          {/* Social — plain list, external links */}
-          <div>
-            <h3 className="text-lg font-normal mb-6 text-stone-900">Social</h3>
-            <ul className="space-y-3">
-              {socialLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-base text-stone-700 hover:text-stone-900 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-
         </div>
 
-        {/* Locations bar */}
-        <div
-          className="locations-bar flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 rounded-2xl border border-stone-400/70 px-6 py-6 mb-16 gpu"
-          style={{
-            contentVisibility: 'auto',
-            containIntrinsicSize: '150px',
-          }}
-        >
-  <div className="flex items-start lg:items-center gap-3 flex-wrap">
-    <span className="flex h-12 w-12 items-center justify-center rounded-full border border-red-500 text-stone-700 shrink-0">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="h-4 w-4"
-  >
-    <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z" />
-    <circle cx="12" cy="10" r="3" />
-  </svg>
-</span>
-    <span className="font-normal text-stone-900 shrink-0">
-      Locations
-    </span>
-    <span className="text-stone-700">
-      {locations.join(" | ")}
-    </span>
-  </div>
-
- <img
-  src={imgSrccc}
-  alt="Global Locations"
-  className="hidden lg:block w-[150px] h-30 "
-  loading="lazy"
-  decoding="async"
-/>
-</div>
-
         {/* Bottom Section */}
-        <div
-          className="footer-bottom border-t border-stone-400 pt-8 gpu"
-          style={{
-            contentVisibility: 'auto',
-            containIntrinsicSize: '150px',
-          }}
-        >
-
+        <div className="border-t border-stone-200 pt-6">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-
-
-            {/* Text-based brand mark — replaces the raster logo image */}
-            <div className="flex items-center">
-  <img
-     src={imgSrcc}
-    alt="Sniper Logo"
-    className="h-16 w-auto object-contain"
-    loading="lazy"
-    decoding="async"
-  />
-</div>
-
-            <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-stone-700">
+            <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-stone-500">
               {legalLinks.map((link) => (
                 <a
                   key={link.href}
@@ -549,14 +325,12 @@ export const Footer = memo(() => {
               ))}
             </div>
 
-            <p className="text-sm text-stone-700 whitespace-nowrap">
-              © Sniper Systems &amp; Solutions {new Date().getFullYear()}
+            <p className="text-sm text-stone-500 whitespace-nowrap">
+              © {new Date().getFullYear()} Sniper Systems &amp; Solutions
             </p>
           </div>
         </div>
       </div>
     </footer>
   );
-});
-
-Footer.displayName = 'Footer';
+};
