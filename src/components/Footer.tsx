@@ -40,16 +40,16 @@ const solutionsLinks = [
 ];
 
 const partnersLinks = [
-  { name: "Apple", href: "https://sniperindia.com/partners/apple" },
+  { name: "Apple", href: "https://sniperindia.com/partners/apple/index.html" },
   { name: "Nvidia", href: "https://sniperindia.com/partners/nvidia" },
   { name: "Microsoft", href: "https://sniperindia.com/partners/microsoft" },
-  { name: "Lenovo", href: "https://sniperindia.com/partners/lenovo" },
-  { name: "Autodesk", href: "https://sniperindia.com/partners/autodesk" },
-  { name: "Adobe", href: "https://sniperindia.com/partners/adobe" },
-  { name: "Samsung", href: "https://sniperindia.com/partners/samsung" },
+  { name: "Lenovo", href: "https://sniperindia.com/partners/lenovo/index.html" },
+  { name: "Autodesk", href: "https://sniperindia.com/partners/autodesk/index.html" },
+  { name: "Adobe", href: "https://sniperindia.com/partners/adobe/index.html" },
+  { name: "Samsung", href: "https://sniperindia.com/partners/samsung/index.html" },
   { name: "HP", href: "https://sniperindia.com/partners/hp" },
   { name: "Unity", href: "https://sniperindia.com/partners/unity" },
-  { name: "JAMF", href: "https://sniperindia.com/partners/jamf" },
+  { name: "JAMF", href: "https://sniperindia.com/partners/empower-your-apple-ecosystem-with-jamf/index.html" },
   { name: "Unreal Engine", href: "https://sniperindia.com/partners/unreal-engine" },
   { name: "Logitech", href: "https://sniperindia.com/partners/logitech" },
   { name: "Cisco", href: "https://sniperindia.com/partners/cisco" },
