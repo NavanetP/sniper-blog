@@ -613,6 +613,7 @@ const Index = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   const rawBlogPosts = [
+    { id: "gcc-it-infrastructure-ai-ready-operations-india", title: "From GCC Setup to AI-Ready Operations: Why India's GCCs Need a New IT Infrastructure Strategy", excerpt: "India's GCCs are taking ownership of AI, product engineering and global technology operations. Discover why IT infrastructure strategy must evolve alongside the GCC's expanding mandate.", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80", date: "August 13, 2026", readTime: "12 min read", category: "GCC Infrastructure" },
     { id: "digital-twins-manufacturing-ai-real-time-3d-intelligent-factory", title: "Digital Twins in Manufacturing: How AI and Real-Time 3D Are Creating the Intelligent Factory", excerpt: "The next generation of industrial digital twins connects live machine data, AI, real-time 3D and operational knowledge in a single environment — building the foundation for truly intelligent factory operations.", image: "https://www.advancedtech.com/wp-content/uploads/2024/09/Facility-Condition-Assessments_Image-1_1200x628.jpg", date: "August 13, 2026", readTime: "11 min read", category: "Digital Manufacturing" },
     { id: "it-asset-buyback-recover-value-protect-data", title: "Don't Just Dispose: How IT Asset Buyback Helps Businesses Recover Value and Protect Data", excerpt: "Retired IT assets aren't just old equipment — they hold financial value, data-security risks and e-waste responsibilities. Discover how a structured IT Asset Buyback programme addresses all three.", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80", date: "August 13, 2026", readTime: "9 min read", category: "IT Asset Management" },
     { id: "microsoft-security-copilot-ai-powered-enterprise-cybersecurity-2026", title: "Microsoft Security Copilot: The Future of AI-Powered Enterprise Cybersecurity in 2026", excerpt: "Discover how Microsoft Security Copilot uses generative AI to help enterprises investigate threats faster, improve analyst productivity, and strengthen security operations in 2026.", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80", date: "August 13, 2026", readTime: "10 min read", category: "Cybersecurity" },
@@ -642,9 +643,10 @@ const Index = () => {
 
   const blogPosts = useRef(assignAuthorsToPosts(rawBlogPosts)).current;
 
-  const postR = blogPosts.find(p => p.id === "digital-twins-manufacturing-ai-real-time-3d-intelligent-factory") || blogPosts[0];
-  const postQ = blogPosts.find(p => p.id === "it-asset-buyback-recover-value-protect-data") || blogPosts[1];
-  const postP = blogPosts.find(p => p.id === "microsoft-security-copilot-ai-powered-enterprise-cybersecurity-2026") || blogPosts[2];
+  const postS = blogPosts.find(p => p.id === "gcc-it-infrastructure-ai-ready-operations-india") || blogPosts[0];
+  const postR = blogPosts.find(p => p.id === "digital-twins-manufacturing-ai-real-time-3d-intelligent-factory") || blogPosts[1];
+  const postQ = blogPosts.find(p => p.id === "it-asset-buyback-recover-value-protect-data") || blogPosts[2];
+  const postP = blogPosts.find(p => p.id === "microsoft-security-copilot-ai-powered-enterprise-cybersecurity-2026") || blogPosts[3];
   const postO = blogPosts.find(p => p.id === "the-hidden-technology-behind-indias-gcc-boom-why-it-infrastructure-matters") || blogPosts[3];
   const postN = blogPosts.find(p => p.id === "why-remote-engineering-teams-are-transforming-manufacturing-and-product-design") || blogPosts[4];
   const postM = blogPosts.find(p => p.id === "how-ai-powered-document-collaboration-is-transforming-modern-business-workflows") || blogPosts[5];
@@ -790,9 +792,9 @@ const Index = () => {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 mb-14 pb-14 border-b border-gray-100">
-                <HeroCard post={postR} inView={featuredInView} />
+                <HeroCard post={postS} inView={featuredInView} />
                 <div className="flex flex-col justify-between gap-0 pt-2 lg:pt-0">
-                  {[postQ, postP, postO].map((post, i) => (
+                  {[postR, postQ, postP].map((post, i) => (
                     <StackCard key={post.id} post={post} index={i} inView={featuredInView} />
                   ))}
                 </div>
