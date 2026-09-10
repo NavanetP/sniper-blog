@@ -13,7 +13,6 @@ const Index = React.lazy(() => import("./pages/Index"));
 
 
 const About = React.lazy(() => import("./pages/About"));
-const Blog = React.lazy(() => import("./pages/Blog"));
 const Contact = React.lazy(() => import("./pages/Contact"));
 const Careers = React.lazy(() => import("./pages/Careers"));
 const BlogA = React.lazy(() => import("./pages/BlogA"));
@@ -35,6 +34,7 @@ const BlogP = React.lazy(() => import("./pages/BlogP"));
 const BlogQ = React.lazy(() => import("./pages/BlogQ"));
 const BlogR = React.lazy(() => import("./pages/BlogR"));
 const BlogS = React.lazy(() => import("./pages/BlogS"));
+const BlogT = React.lazy(() => import("./pages/BlogT"));
 
 // Solutions
 import AVSolutions from "./pages/solutions/AVSolutions";
@@ -109,7 +109,6 @@ const App = () => (
           <Route path="/about-us" element={<Navigate to="/about" replace />} />
 
 
-          <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/privacy" element={<Privacy/>}/>
@@ -182,6 +181,7 @@ const App = () => (
 <Route path="/blog/it-asset-buyback-recover-value-protect-data" element={<BlogQ />} />
 <Route path="/blog/gcc-it-infrastructure-ai-ready-operations-india" element={<BlogR />} />
 <Route path="/blog/ai-engineering-data-management-autodesk-vault-manufacturing" element={<BlogS />} />
+<Route path="/blog/enterprise-apple-device-deployment-guide" element={<BlogT />} />
 
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
