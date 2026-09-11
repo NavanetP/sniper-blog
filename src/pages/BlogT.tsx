@@ -4,23 +4,23 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ArrowRight,
+  BookOpen,
   Calendar,
+  CheckCircle2,
   ChevronDown,
   Clock,
-  Share2,
-  Tag,
-  User,
-  CheckCircle2,
-  XCircle,
-  Smartphone,
-  Shield,
-  Settings,
-  RefreshCw,
   GraduationCap,
   HeartHandshake,
-  Zap,
+  RefreshCw,
   Search,
-  BookOpen,
+  Settings,
+  Share2,
+  Shield,
+  Smartphone,
+  Tag,
+  User,
+  XCircle,
+  Zap,
 } from "lucide-react";
 import { AnimatePresence, motion, useInView, useScroll, useSpring } from "motion/react";
 import { useEffect, useRef, useState } from "react";
@@ -570,7 +570,7 @@ const BlogT = () => {
           {/* Breadcrumb */}
           <FadeUp>
             <div className="flex items-center gap-2 text-[13px] text-[#8e8e93] mb-8">
-              <a href="/blog" className="hover:text-[#1d1d1f] transition-colors">Blog</a>
+              <a href="https://blog.sniperindia.com/" className="hover:text-[#1d1d1f] transition-colors">Blog</a>
               <span>/</span>
               <span className="text-[#1d1d1f]">Apple Enterprise Deployment</span>
             </div>

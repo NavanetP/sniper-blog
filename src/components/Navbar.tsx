@@ -466,7 +466,7 @@ export const Navbar = () => {
   const allSolutionItems = solutionGroups.flatMap(g => g.items);
   const allIndustryItems = industryGroups.flatMap(g => g.items);
 
-  
+
 // const allPartnerItems = partnerGroups.flatMap(g => g.items.map(name => ({ name, href: `/partners/${name.toLowerCase().replace(/\s+/g, "-")}` })));
 
 // With this (using actual absolute URLs):
@@ -703,7 +703,7 @@ const allPartnerItems = partnerGroups.flatMap(g => g.items.map(name => {
               <MobileDropdown label="Solutions" items={allSolutionItems} isOpen={openDropdown === "mobile-solutions"} onToggle={() => toggle("mobile-solutions")} />
               <MobileDropdown label="Partners" items={allPartnerItems} isOpen={openDropdown === "mobile-partners"} onToggle={() => toggle("mobile-partners")} />
               <MobileDropdown label="Industries" items={allIndustryItems} isOpen={openDropdown === "mobile-industries"} onToggle={() => toggle("mobile-industries")} />
-              <a href="/blog" onClick={() => setMobileMenuOpen(false)}
+              <a href="https://blog.sniperindia.com/" onClick={() => setMobileMenuOpen(false)}
                 style={{ fontFamily: "'DM Sans', sans-serif" }}
                 className="block py-4 px-6 text-sm font-medium text-gray-200 hover:bg-gray-900 border-b border-gray-800 transition-colors">
                 Blog
