@@ -1088,7 +1088,7 @@ const BlogS = () => {
                     { label: "Autodesk Solutions", href: "/partners/autodesk" },
                     { label: "IT Infrastructure", href: "/solutions/it-infrastructure" },
                     { label: "Managed IT Services", href: "/solutions/managed-it-services" },
-                    { label: "Contact Us", href: "/contact" },
+                    { label: "Contact Us", href: "https://sniperindia.com/contact" },
                   ].map((link) => (
                     <a
                       key={link.label}
@@ -1266,7 +1266,7 @@ const BlogS = () => {
           </FadeUp>
           <FadeUp delay={0.45}>
             <a
-              href="/contact"
+              href="https://sniperindia.com/contact"
               className="inline-flex items-center px-8 sm:px-12 py-3 sm:py-4 border-2 border-white rounded-full text-white font-medium text-base sm:text-lg hover:bg-white hover:text-black transition-colors duration-300"
             >
               GET IN TOUCH

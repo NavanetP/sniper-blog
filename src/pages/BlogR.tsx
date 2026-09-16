@@ -1289,7 +1289,7 @@ const BlogR = () => {
           </FadeUp>
           <FadeUp delay={0.45}>
             <a
-              href="/contact"
+              href="https://sniperindia.com/contact"
               className="inline-flex items-center px-8 sm:px-12 py-3 sm:py-4 border-2 border-white rounded-full text-white font-medium text-base sm:text-lg hover:bg-white hover:text-black transition-colors duration-300"
             >
               GET IN TOUCH

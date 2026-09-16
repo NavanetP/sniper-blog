@@ -16,41 +16,24 @@ const ease = [0.16, 1, 0.3, 1] as const;
 // TEAM AUTHORS
 // ─────────────────────────────────────────────────────────
 const TEAM_MEMBERS = [
-  { name: "Jahara Bee",     avatar: "from-rose-400 to-pink-500" },
-  { name: "Praveena",       avatar: "from-violet-400 to-indigo-500" },
-  { name: "Quency Wilfrada",avatar: "from-amber-400 to-orange-500" },
-  { name: "Wishways",       avatar: "from-sky-400 to-blue-500" },
+  { name: "Likith Singh",      avatar: "from-rose-400 to-pink-500" },
+  { name: "Praveena",        avatar: "from-violet-400 to-indigo-500" },
+  { name: "Quency Wilfrada", avatar: "from-amber-400 to-orange-500" },
+  { name: "Jahara Bee",    avatar: "from-sky-400 to-blue-500" },
 ];
 
-const assignAuthors = (posts: any[]) => {
-  const total = posts.length;
-  const jaharaQ = Math.ceil(total * 0.4);
-  const otherQ  = Math.floor((total - jaharaQ) / 3);
-  const counts: Record<string, number> = {};
-  TEAM_MEMBERS.forEach(m => (counts[m.name] = 0));
-  return posts.map(post => {
-    const weights = [40, 22, 19, 19];
-    const sum = weights.reduce((a, b) => a + b, 0);
-    let r = Math.random() * sum;
-    let author = TEAM_MEMBERS[0];
-    for (let i = 0; i < TEAM_MEMBERS.length; i++) {
-      r -= weights[i];
-      if (r <= 0) { author = TEAM_MEMBERS[i]; break; }
-    }
-    const quota = author.name === "Jahara Bee" ? jaharaQ : otherQ;
-    if (counts[author.name] >= quota) {
-      const rem = TEAM_MEMBERS.filter(m => counts[m.name] < (m.name === "Jahara Bee" ? jaharaQ : otherQ));
-      if (rem.length) author = rem[Math.floor(Math.random() * rem.length)];
-    }
-    counts[author.name]++;
-    return { ...post, author: author.name, avatar: author.avatar };
+// Round-robin: each member gets exactly posts.length / 4 posts, in order
+const assignAuthors = (posts: any[]) =>
+  posts.map((post, i) => {
+    const member = TEAM_MEMBERS[i % TEAM_MEMBERS.length];
+    return { ...post, author: member.name, avatar: member.avatar };
   });
-};
 
 // ─────────────────────────────────────────────────────────
 // ALL BLOG POSTS
 // ─────────────────────────────────────────────────────────
 const RAW_POSTS = [
+  { id: "iphone-18-pro-for-business",                                                             title: "What Does the New iPhone 18 Pro Mean for Businesses?",                                     excerpt: "A20 Pro chip, 48MP variable aperture camera and Apple Intelligence — here's how to evaluate what the iPhone 18 Pro means for enterprise mobility and deployment.",          image: "https://i.postimg.cc/YSFy3014/Screenshot-2026-09-16-at-3-42-06-PM-(2).png",                                date: "Aug 13, 2026", readTime: "10 min", category: "Apple Devices" },
   { id: "ai-ready-enterprise-networking",                                                          title: "AI Is Changing Enterprise Networking: Is Your Business Network Ready for What's Next?",     excerpt: "AI, Wi-Fi 7, SD-WAN, zero trust and intelligent NetOps are reshaping enterprise networking. Here's how to build a modern, secure and scalable network.",                  image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=80",                                    date: "Aug 13, 2026", readTime: "13 min", category: "Enterprise Networking" },
   { id: "enterprise-apple-device-deployment-guide",                                               title: "How to Deploy Apple Devices at Scale in an Enterprise: A Complete Guide",                                  excerpt: "From procurement and Apple Business to MDM, Automated Device Enrollment, user onboarding and lifecycle management.",                                                      image: "/blog/apple-enterprise-devices.png",                                                                      date: "Aug 13, 2026", readTime: "14 min", category: "Apple Deployment" },
   { id: "ai-engineering-data-management-autodesk-vault-manufacturing",                            title: "AI in Engineering Data Management: How Autodesk Vault Is Changing Manufacturing Workflows",              excerpt: "Autodesk Vault 2027.1 and AI-powered PDM are transforming engineering data management — faster access, less repetitive work and connected workflows.",                   image: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=900&q=80",                                date: "Aug 13, 2026", readTime: "11 min", category: "Engineering Data" },

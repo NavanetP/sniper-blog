@@ -940,7 +940,7 @@ const BlogT = () => {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
-                      href="/contact"
+                      href="https://sniperindia.com/contact"
                       className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-[#1d1d1f] font-semibold rounded-full hover:bg-[#f5f5f7] transition-colors text-[15px]"
                     >
                       Get in touch <ArrowRight className="w-4 h-4" />
