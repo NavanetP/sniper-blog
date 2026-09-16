@@ -855,9 +855,9 @@ const BlogV = () => {
                   <p>
                     Sniper can also help businesses align Apple with their wider technology
                     environment, including solutions and services across{" "}
-                    <a href="/partners/microsoft" className="text-[#0066cc] underline underline-offset-2 hover:no-underline">Microsoft</a>,{" "}
-                    <a href="/partners/lenovo" className="text-[#0066cc] underline underline-offset-2 hover:no-underline">Lenovo</a>,{" "}
-                    <a href="/partners/adobe" className="text-[#0066cc] underline underline-offset-2 hover:no-underline">Adobe</a>,
+                    <a href="https://sniperindia.com/partners/microsoft/index.html" className="text-[#0066cc] underline underline-offset-2 hover:no-underline">Microsoft</a>,{" "}
+                    <a href="https://sniperindia.com/partners/lenovo/index.html" className="text-[#0066cc] underline underline-offset-2 hover:no-underline">Lenovo</a>,{" "}
+                    <a href="https://sniperindia.com/partners/adobe" className="text-[#0066cc] underline underline-offset-2 hover:no-underline">Adobe</a>,
                     managed services and IT lifecycle management where relevant to the
                     organisation's requirements.
                   </p>
