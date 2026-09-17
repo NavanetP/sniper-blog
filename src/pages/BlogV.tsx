@@ -554,7 +554,7 @@ const BlogV = () => {
                 <div className="w-8 h-8 rounded-full bg-[#1d1d1f] flex items-center justify-center">
                   <User className="w-4 h-4 text-white" />
                 </div>
-                Likith Singh
+               Jahara Bee
               </span>
               <span className="flex items-center gap-1.5 text-[#8e8e93]">
                 <Calendar className="w-4 h-4" /> August 13, 2026

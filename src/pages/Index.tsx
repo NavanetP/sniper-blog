@@ -16,7 +16,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
 // TEAM AUTHORS
 // ─────────────────────────────────────────────────────────
 const TEAM_MEMBERS = [
-  { name: "Likith Singh",      avatar: "from-rose-400 to-pink-500" },
+  { name: "Jahara Bee",      avatar: "from-rose-400 to-pink-500" },
   { name: "Praveena",        avatar: "from-violet-400 to-indigo-500" },
   { name: "Quency Wilfrada", avatar: "from-amber-400 to-orange-500" },
   { name: "Jahara Bee",    avatar: "from-sky-400 to-blue-500" },
