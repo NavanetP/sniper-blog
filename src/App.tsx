@@ -37,6 +37,7 @@ const BlogS = React.lazy(() => import("./pages/BlogS"));
 const BlogT = React.lazy(() => import("./pages/BlogT"));
 const BlogU = React.lazy(() => import("./pages/BlogU"));
 const BlogV = React.lazy(() => import("./pages/BlogV"));
+const BlogW = React.lazy(() => import("./pages/BlogW"));
 
 // Solutions
 import AVSolutions from "./pages/solutions/AVSolutions";
@@ -132,7 +133,7 @@ const App = () => (
 
           {/* Partners Routes */}
           <Route path="/partners" element={<Partners />} />
-          <Route path="/partners/apple/" element={<Apple />} />
+          <Route path="/partners/apple/*" element={<Apple />} />
           <Route path="/partners/nvidia" element={<Nvidia />} />
           <Route path="/partners/microsoft" element={<Microsoft />} />
           <Route path="/partners/lenovo" element={<Lenovo />} />
@@ -186,6 +187,7 @@ const App = () => (
 <Route path="/blog/enterprise-apple-device-deployment-guide" element={<BlogT />} />
 <Route path="/blog/ai-ready-enterprise-networking" element={<BlogU />} />
 <Route path="/blog/iphone-18-pro-for-business" element={<BlogV />} />
+<Route path="/blog/iphone-18-pro-enterprise-it-guide" element={<BlogW />} />
 
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
