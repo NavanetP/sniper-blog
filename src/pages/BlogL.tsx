@@ -856,7 +856,7 @@ const BlogL = () => {
           <FadeUp delay={0.1} className="mb-10 sm:mb-16">
             <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden h-48 sm:h-[360px] md:h-[480px]">
               <ParallaxImage
-                src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1600&q=80"
+                src="https://i.postimg.cc/J0JTJ41N/Apple-i-Phone-18-Pro-2up-Geo-260909-lp-jpg-landing-big-2x.jpg"
                 alt="Modern Server Hardware Infrastructure"
                 className="w-full h-full"
               />

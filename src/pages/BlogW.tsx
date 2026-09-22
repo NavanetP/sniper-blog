@@ -354,7 +354,7 @@ const BlogW = () => {
       "@type": "Article",
       headline: "iPhone 18 Pro for Business: What IT and Enterprise Teams Should Know",
       description: "A guide for IT and enterprise teams on deploying iPhone 18 Pro — covering device management, ADE, security, SmartEPP and how Sniper supports enterprise Apple deployments.",
-      image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1600&q=80",
+      image: "",
       author: { "@type": "Organization", name: "Sniper Systems & Solutions" },
       publisher: {
         "@type": "Organization",
@@ -377,12 +377,12 @@ const BlogW = () => {
     keywords: "iPhone 18 Pro enterprise, iPhone 18 Pro IT deployment, Apple enterprise mobility, Apple Business Manager, Automated Device Enrollment ADE, enterprise iPhone security, iPhone 18 Pro enterprise India, SmartEPP Apple, enterprise Apple deployment India, iPhone refresh enterprise",
     ogTitle: "iPhone 18 Pro for Business: What IT and Enterprise Teams Should Know",
     ogDescription: "Device management, ADE, security frameworks, SmartEPP and enterprise deployment — a practical guide for IT teams evaluating the iPhone 18 Pro.",
-    ogImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1600&q=80",
+    ogImage: "https://i.postimg.cc/J0JTJ41N/Apple-i-Phone-18-Pro-2up-Geo-260909-lp-jpg-landing-big-2x.jpg",
     ogUrl: "https://sniperindia.com/blog/iphone-18-pro-enterprise-it-guide",
     canonicalUrl: "https://sniperindia.com/blog/iphone-18-pro-enterprise-it-guide",
     twitterTitle: "iPhone 18 Pro for Business: What IT and Enterprise Teams Should Know",
     twitterDescription: "IT guide for iPhone 18 Pro enterprise deployment — ADE, device management, security, SmartEPP and Sniper's Apple lifecycle services.",
-    twitterImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1600&q=80",
+    twitterImage: "https://i.postimg.cc/J0JTJ41N/Apple-i-Phone-18-Pro-2up-Geo-260909-lp-jpg-landing-big-2x.jpg",
   });
 
   useEffect(() => {
@@ -569,7 +569,7 @@ const BlogW = () => {
         <FadeUp delay={0.25} className="max-w-5xl mx-auto pt-8">
           <div className="relative rounded-t-3xl overflow-hidden h-[240px] sm:h-[400px] md:h-[500px] shadow-2xl">
             <img
-              src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1600&q=80"
+              src="https://i.postimg.cc/J0JTJ41N/Apple-i-Phone-18-Pro-2up-Geo-260909-lp-jpg-landing-big-2x.jpg"
               alt="iPhone 18 Pro enterprise deployment — IT team managing Apple devices"
               loading="eager"
               decoding="async"
