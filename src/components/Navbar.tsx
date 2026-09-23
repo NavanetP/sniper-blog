@@ -544,7 +544,7 @@ const allPartnerItems = partnerGroups.flatMap(g => g.items.map(name => {
           <div className="flex items-center justify-between h-16 md:h-20">
 
             {/* Logo */}
-            <a href="/" className="flex items-center gap-3 group flex-shrink-0" onClick={close}>
+            <a href="https://sniperindia.com/" className="flex items-center gap-3 group flex-shrink-0" onClick={close}>
               <img
                 src="https://i.ibb.co/9BNf5rZ/sniper-logo-neww.png"
                 alt="Sniper India Logo"

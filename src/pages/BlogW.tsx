@@ -506,7 +506,7 @@ const BlogW = () => {
           {/* Breadcrumb */}
           <FadeUp>
             <div className="flex items-center gap-2 text-[13px] text-[#8e8e93] mb-8">
-              <a href="/blog" className="hover:text-[#1d1d1f] transition-colors">Blog</a>
+              <a href="https://sniperindia.com/" className="hover:text-[#1d1d1f] transition-colors">Blog</a>
               <span>/</span>
               <span className="text-[#1d1d1f]">Apple Devices · Enterprise</span>
             </div>
@@ -839,7 +839,7 @@ const BlogW = () => {
                     ))}
                   </div>
                   <a
-                    href="/contact"
+                    href="https://sniperindia.com/contact"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#1d1d1f] font-semibold text-[14px] rounded-full hover:bg-[#f5f5f7] transition-colors"
                   >
                     Get Enterprise Pricing <ArrowRight className="w-4 h-4" />
@@ -904,7 +904,7 @@ const BlogW = () => {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
-                      href="/contact"
+                      href="https://sniperindia.com/contact"
                       className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-[#1d1d1f] font-semibold rounded-full hover:bg-[#f5f5f7] transition-colors text-[15px]"
                     >
                       Get in touch <ArrowRight className="w-4 h-4" />
@@ -933,7 +933,7 @@ const BlogW = () => {
                 <p className="text-[12px] font-bold uppercase tracking-[0.15em] text-[#8e8e93] mb-2">Keep reading</p>
                 <h2 className="text-[28px] sm:text-[34px] font-black text-[#1d1d1f] leading-tight">More from the blog</h2>
               </div>
-              <a href="/blog" className="hidden sm:inline-flex items-center gap-1.5 text-[14px] font-semibold text-[#0066cc] hover:underline">
+              <a href="https://sniperindia.com/" className="hidden sm:inline-flex items-center gap-1.5 text-[14px] font-semibold text-[#0066cc] hover:underline">
                 View all <ArrowRight className="w-4 h-4" />
               </a>
             </div>
