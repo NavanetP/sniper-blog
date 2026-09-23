@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BLOG HOME
+  ════════════════════════════════════════════════════════════ -->
+
+  <url>
+    <loc>https://sniperindia.com/</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BLOG ARTICLES
+       Sorted newest → oldest (August 2026 → October 2025)
+  ════════════════════════════════════════════════════════════ -->
+
+  <!-- iPhone 18 Pro Enterprise IT Guide (BlogW) -->
+  <url>
+    <loc>https://sniperindia.com/blog/iphone-18-pro-enterprise-it-guide</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- What Does iPhone 18 Pro Mean for Businesses? (BlogV) -->
+  <url>
+    <loc>https://sniperindia.com/blog/iphone-18-pro-for-business</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- AI-Ready Enterprise Networking (BlogU) -->
+  <url>
+    <loc>https://sniperindia.com/blog/ai-ready-enterprise-networking</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Enterprise Apple Device Deployment Guide (BlogT) -->
+  <url>
+    <loc>https://sniperindia.com/blog/enterprise-apple-device-deployment-guide</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- AI in Engineering Data Management — Autodesk Vault (BlogS) -->
+  <url>
+    <loc>https://sniperindia.com/blog/ai-engineering-data-management-autodesk-vault-manufacturing</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- GCC IT Infrastructure — AI-Ready Operations India (BlogR) -->
+  <url>
+    <loc>https://sniperindia.com/blog/gcc-it-infrastructure-ai-ready-operations-india</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- IT Asset Buyback — Recover Value and Protect Data (BlogQ) -->
+  <url>
+    <loc>https://sniperindia.com/blog/it-asset-buyback-recover-value-protect-data</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Microsoft Security Copilot (BlogP) -->
+  <url>
+    <loc>https://sniperindia.com/blog/microsoft-security-copilot-ai-powered-enterprise-cybersecurity-2026</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- The Hidden Technology Behind India's GCC Boom (BlogO) -->
+  <url>
+    <loc>https://sniperindia.com/blog/the-hidden-technology-behind-indias-gcc-boom-why-it-infrastructure-matters</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Why Remote Engineering Teams Are Transforming Manufacturing (BlogN) -->
+  <url>
+    <loc>https://sniperindia.com/blog/why-remote-engineering-teams-are-transforming-manufacturing-and-product-design</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- AI-Powered Document Collaboration (BlogM) -->
+  <url>
+    <loc>https://sniperindia.com/blog/how-ai-powered-document-collaboration-is-transforming-modern-business-workflows</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Why AI Is Reshaping Enterprise Server and Storage Infrastructure (BlogL) -->
+  <url>
+    <loc>https://sniperindia.com/blog/why-ai-is-reshaping-enterprise-server-and-storage-infrastructure</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- How Real-Time 3D and XR Are Transforming Automotive — Unity (BlogK) -->
+  <url>
+    <loc>https://sniperindia.com/blog/how-real-time-3d-and-xr-are-transforming-automotive-product-development-unity</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Microsoft Intune — Hybrid Work and Endpoint Management (BlogJ) -->
+  <url>
+    <loc>https://sniperindia.com/blog/how-microsoft-intune-is-helping-enterprises-secure-hybrid-work-and-simplify-endpoint-management</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- How Real-Time 3D and XR Are Transforming Automotive (BlogI) -->
+  <url>
+    <loc>https://sniperindia.com/blog/how-real-time-3d-and-xr-are-transforming-automotive-product-development</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Why Businesses Are Choosing Dell Dual Monitor Setups (BlogH) -->
+  <url>
+    <loc>https://sniperindia.com/blog/why-businesses-are-choosing-dell-dual-monitor-setups-for-higher-productivity</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- How Enterprises Are Using Azure OpenAI (BlogG) -->
+  <url>
+    <loc>https://sniperindia.com/blog/how-enterprises-are-using-azure-openai-to-drive-productivity-and-innovation-in-2026</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Microsoft Threat Protection (BlogF) -->
+  <url>
+    <loc>https://sniperindia.com/blog/microsoft-threat-protection-strengthening-enterprise-security</loc>
+    <lastmod>2026-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- BIM and Digital Twins — AEC Redefined (BlogE) -->
+  <url>
+    <loc>https://sniperindia.com/blog/bim-digital-twins-aec-redefined</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Cloud Solutions Empowering Indian Enterprises (BlogD) -->
+  <url>
+    <loc>https://sniperindia.com/blog/blogd</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- How Businesses Are Using Interactive 3D — Unity Studio (BlogC) -->
+  <url>
+    <loc>https://sniperindia.com/blog/interactive-3d-business-unity-studio</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- Lenovo AI Powers a World Gone Football (BlogB) -->
+  <url>
+    <loc>https://sniperindia.com/blog/blogb</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- A Smarter Way to Document Work — Adobe Acrobat (BlogA) -->
+  <url>
+    <loc>https://sniperindia.com/blog/bloga</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LEGAL PAGES
+  ════════════════════════════════════════════════════════════ -->
+
+  <url>
+    <loc>https://sniperindia.com/privacy</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://sniperindia.com/terms</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>
