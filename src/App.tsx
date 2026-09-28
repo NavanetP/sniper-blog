@@ -38,6 +38,7 @@ const BlogT = React.lazy(() => import("./pages/BlogT"));
 const BlogU = React.lazy(() => import("./pages/BlogU"));
 const BlogV = React.lazy(() => import("./pages/BlogV"));
 const BlogW = React.lazy(() => import("./pages/BlogW"));
+const BlogX = React.lazy(() => import("./pages/BlogX"));
 
 const queryClient = new QueryClient();
 
@@ -180,6 +181,11 @@ const App = () => (
             <Route
               path="/blog/iphone-18-pro-enterprise-it-guide"
               element={<BlogW />}
+            />
+
+            <Route
+              path="/blog/starbucks-chennai-gcc-it-infrastructure"
+              element={<BlogX />}
             />
 
 
