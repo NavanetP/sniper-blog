@@ -33,6 +33,7 @@ const assignAuthors = (posts: any[]) =>
 // ALL BLOG POSTS
 // ─────────────────────────────────────────────────────────
 const RAW_POSTS = [
+  { id: "adobe-acrobat-studio-for-business",                                                      title: "Adobe Acrobat Studio for Business: AI-Powered PDF & Content Creation",                  excerpt: "How businesses can combine PDF productivity, AI document insights, collaboration and content creation in one Adobe solution — and what Acrobat Studio adds over Acrobat Pro.",  image: "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=900&q=80",                date: "Sep 23, 2026", readTime: "11 min", category: "Adobe Solutions" },
   { id: "starbucks-chennai-gcc-it-infrastructure",                                               title: "Starbucks' Chennai GCC: What Global Capability Centres Need From Modern IT Infrastructure", excerpt: "How the growth of GCCs in Chennai is changing enterprise networking, cloud, cybersecurity, deployment and managed IT — and how to build the IT foundation from day one.", image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80",                 date: "Sep 23, 2026", readTime: "11 min", category: "GCC Infrastructure" },
   { id: "iphone-18-pro-enterprise-it-guide",                                                      title: "iPhone 18 Pro for Business: What IT and Enterprise Teams Should Know",                   excerpt: "Device management, ADE, security, SmartEPP and deployment planning — a practical IT guide for enterprise teams evaluating iPhone 18 Pro.",                               image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=900&q=80",                                date: "Aug 13, 2026", readTime: "12 min", category: "Enterprise IT" },
   { id: "iphone-18-pro-for-business",                                                             title: "What Does the New iPhone 18 Pro Mean for Businesses?",                                     excerpt: "A20 Pro chip, 48MP variable aperture camera and Apple Intelligence — here's how to evaluate what the iPhone 18 Pro means for enterprise mobility and deployment.",          image: "https://i.postimg.cc/YSFy3014/Screenshot-2026-09-16-at-3-42-06-PM-(2).png",                                date: "Aug 13, 2026", readTime: "10 min", category: "Apple Devices" },
@@ -513,8 +514,8 @@ const Index = () => {
     ogTitle: "IT Blogs & Insights | Sniper Systems",
     ogDescription: "Stay updated with the latest IT trends, cloud solutions, cybersecurity insights, and enterprise technology blogs.",
     ogImage: "https://sniperindia.com/wp-content/uploads/2023/09/sniper-systems-banner.jpg",
-    ogUrl: "https://sniperindia.com/blog/",
-    canonicalUrl: "https://sniperindia.com/blog/",
+    ogUrl: "https://blog.sniperindia.com/",
+    canonicalUrl: "https://blog.sniperindia.com/",
     twitterTitle: "IT Blogs & Insights | Sniper Systems",
     twitterDescription: "Read expert blogs on IT infrastructure, managed services, cloud computing, and enterprise solutions.",
     twitterImage: "https://sniperindia.com/wp-content/uploads/2023/09/sniper-systems-banner.jpg",
