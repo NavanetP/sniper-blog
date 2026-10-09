@@ -915,7 +915,7 @@ const BlogZ = () => {
                     <p className="text-[13px] text-[#6e6e73]">Software licensing, workstation configuration, GPU infrastructure, HPC and enterprise IT for Unreal Engine and real-time 3D workflows.</p>
                   </div>
                   <a
-                    href="/partners/unreal-engine"
+                    href="https://sniperindia.com/partners/unreal-engine"
                     className="inline-flex items-center gap-2 text-[13px] font-semibold text-[#0066cc] hover:underline underline-offset-2 whitespace-nowrap flex-shrink-0"
                   >
                     Explore UE Solutions <ArrowRight className="w-3.5 h-3.5" />
@@ -953,7 +953,7 @@ const BlogZ = () => {
                       Get in touch <ArrowRight className="w-4 h-4" />
                     </a>
                     <a
-                      href="/partners/unreal-engine"
+                      href="https://sniperindia.com/partners/unreal-engine"
                       className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-[#3d3d3f] text-white font-semibold rounded-full hover:border-white transition-colors text-[15px]"
                     >
                       Explore UE Solutions
