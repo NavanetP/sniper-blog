@@ -40,6 +40,7 @@ const BlogV = React.lazy(() => import("./pages/BlogV"));
 const BlogW = React.lazy(() => import("./pages/BlogW"));
 const BlogX = React.lazy(() => import("./pages/BlogX"));
 const BlogY = React.lazy(() => import("./pages/BlogY"));
+const BlogZ = React.lazy(() => import("./pages/BlogZ"));
 
 const queryClient = new QueryClient();
 
@@ -192,6 +193,11 @@ const App = () => (
             <Route
               path="/blog/adobe-acrobat-studio-for-business"
               element={<BlogY />}
+            />
+
+            <Route
+              path="/blog/unreal-engine-5-8-new-features"
+              element={<BlogZ />}
             />
 
 
