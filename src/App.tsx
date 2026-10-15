@@ -41,6 +41,7 @@ const BlogW = React.lazy(() => import("./pages/BlogW"));
 const BlogX = React.lazy(() => import("./pages/BlogX"));
 const BlogY = React.lazy(() => import("./pages/BlogY"));
 const BlogZ = React.lazy(() => import("./pages/BlogZ"));
+const BlogAA = React.lazy(() => import("./pages/BlogAA"));
 
 const queryClient = new QueryClient();
 
@@ -198,6 +199,11 @@ const App = () => (
             <Route
               path="/blog/unreal-engine-5-8-new-features"
               element={<BlogZ />}
+            />
+
+            <Route
+              path="/blog/reduce-cloud-costs-finops-india"
+              element={<BlogAA />}
             />
 
 
