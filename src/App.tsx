@@ -42,6 +42,7 @@ const BlogX = React.lazy(() => import("./pages/BlogX"));
 const BlogY = React.lazy(() => import("./pages/BlogY"));
 const BlogZ = React.lazy(() => import("./pages/BlogZ"));
 const BlogAA = React.lazy(() => import("./pages/BlogAA"));
+const BlogAB = React.lazy(() => import("./pages/BlogAB"));
 
 const queryClient = new QueryClient();
 
@@ -204,6 +205,11 @@ const App = () => (
             <Route
               path="/blog/reduce-cloud-costs-finops-india"
               element={<BlogAA />}
+            />
+
+            <Route
+              path="/blog/adobe-creative-cloud-for-teams-india"
+              element={<BlogAB />}
             />
 
 
