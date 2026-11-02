@@ -44,6 +44,7 @@ const BlogZ = React.lazy(() => import("./pages/BlogZ"));
 const BlogAA = React.lazy(() => import("./pages/BlogAA"));
 const BlogAB = React.lazy(() => import("./pages/BlogAB"));
 const BlogAC = React.lazy(() => import("./pages/BlogAC"));
+const BlogAD = React.lazy(() => import("./pages/BlogAD"));
 
 const queryClient = new QueryClient();
 
@@ -216,6 +217,11 @@ const App = () => (
             <Route
               path="/blog/microsoft-365-copilot-security-governance-adoption"
               element={<BlogAC />}
+            />
+
+            <Route
+              path="/blog/ai-ready-it-infrastructure-enterprise-guide"
+              element={<BlogAD />}
             />
 
 
