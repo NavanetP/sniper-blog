@@ -45,6 +45,7 @@ const BlogAA = React.lazy(() => import("./pages/BlogAA"));
 const BlogAB = React.lazy(() => import("./pages/BlogAB"));
 const BlogAC = React.lazy(() => import("./pages/BlogAC"));
 const BlogAD = React.lazy(() => import("./pages/BlogAD"));
+const BlogAE = React.lazy(() => import("./pages/BlogAE"));
 
 const queryClient = new QueryClient();
 
@@ -222,6 +223,11 @@ const App = () => (
             <Route
               path="/blog/ai-ready-it-infrastructure-enterprise-guide"
               element={<BlogAD />}
+            />
+
+            <Route
+              path="/blog/apple-business-enterprise-guide"
+              element={<BlogAE />}
             />
 
 
