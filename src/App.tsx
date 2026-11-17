@@ -46,6 +46,7 @@ const BlogAB = React.lazy(() => import("./pages/BlogAB"));
 const BlogAC = React.lazy(() => import("./pages/BlogAC"));
 const BlogAD = React.lazy(() => import("./pages/BlogAD"));
 const BlogAE = React.lazy(() => import("./pages/BlogAE"));
+const BlogAF = React.lazy(() => import("./pages/BlogAF"));
 
 const queryClient = new QueryClient();
 
@@ -228,6 +229,11 @@ const App = () => (
             <Route
               path="/blog/apple-business-enterprise-guide"
               element={<BlogAE />}
+            />
+
+            <Route
+              path="/blog/aws-zero-trust-architecture-ec2-ssm"
+              element={<BlogAF />}
             />
 
 
