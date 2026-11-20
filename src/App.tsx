@@ -47,6 +47,7 @@ const BlogAC = React.lazy(() => import("./pages/BlogAC"));
 const BlogAD = React.lazy(() => import("./pages/BlogAD"));
 const BlogAE = React.lazy(() => import("./pages/BlogAE"));
 const BlogAF = React.lazy(() => import("./pages/BlogAF"));
+const BlogAG = React.lazy(() => import("./pages/BlogAG"));
 
 const queryClient = new QueryClient();
 
@@ -234,6 +235,11 @@ const App = () => (
             <Route
               path="/blog/aws-zero-trust-architecture-ec2-ssm"
               element={<BlogAF />}
+            />
+
+            <Route
+              path="/blog/ai-data-cybersecurity-gcc-india-it-trends"
+              element={<BlogAG />}
             />
 
 
